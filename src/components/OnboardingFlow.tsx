@@ -179,24 +179,24 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
           <h1 className="text-3xl font-bold text-center mb-6">Start your 3-day FREE trial to continue.</h1>
           <div className="flex flex-col items-start mx-auto w-80 relative">
             {/* Vertical connecting line */}
-            <div className="absolute left-[14px] top-[24px] bottom-[24px] w-[11px] bg-black/60"></div>
+            <div className="absolute left-[15px] top-[20px] bottom-[20px] w-[2px] bg-black/20"></div>
             
             <div className="flex items-start gap-3 mb-6 relative">
-              <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center text-white z-10">🔓</div>
+              <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center text-white z-10 flex-shrink-0">🔓</div>
               <div>
                 <p className="font-semibold">Today</p>
                 <p className="text-gray-500 text-sm">Unlock all app features like Calculating, Adding Notes, Unlimited Goals and more.</p>
               </div>
             </div>
             <div className="flex items-start gap-3 mb-6 relative">
-              <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center text-white z-10">🔔</div>
+              <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center text-white z-10 flex-shrink-0">🔔</div>
               <div>
                 <p className="font-semibold">In 2 Days - Reminder</p>
                 <p className="text-gray-500 text-sm">We'll send you a reminder before your trial ends.</p>
               </div>
             </div>
             <div className="flex items-start gap-3 relative">
-              <div className="w-12 h-12 rounded-full bg-black flex items-center justify-center text-white z-10">👑</div>
+              <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center text-white z-10 flex-shrink-0">👑</div>
               <div>
                 <p className="font-semibold">In 3 Days - Billing Starts</p>
                 <p className="text-gray-500 text-sm">You'll be charged after 3 days unless you cancel anytime before.</p>
