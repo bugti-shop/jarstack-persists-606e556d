@@ -164,7 +164,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
   }, [step]);
 
   const handleContinue = () => {
-    if (step < 19) setStep(step + 1);
+    if (step < 17) setStep(step + 1);
   };
 
   // Show welcome screen first
@@ -278,7 +278,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
             <div className="h-2 w-full rounded-full bg-gray-200">
               <div
                 className="h-2 rounded-full bg-black"
-                style={{ width: `${(step / 19) * 100}%` }}
+                style={{ width: `${(step / 17) * 100}%` }}
               />
             </div>
           </div>
@@ -340,108 +340,6 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
         )}
 
         {step === 3 && (
-          <motion.section 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            className="mt-8"
-          >
-            <h1 className="text-3xl font-bold text-gray-900 mb-6">Jarify creates sustainable savings habits</h1>
-            
-            <div className="bg-[#FAF7F4] rounded-3xl p-6 mt-8">
-              <h2 className="text-lg font-medium text-gray-700 mb-4">Your savings growth</h2>
-              
-              <svg viewBox="0 0 400 250" className="w-full h-auto">
-                {/* Grid lines */}
-                <line x1="40" y1="40" x2="40" y2="200" stroke="#E5E5E5" strokeWidth="1" />
-                <line x1="40" y1="200" x2="380" y2="200" stroke="#E5E5E5" strokeWidth="1" />
-                <line x1="40" y1="120" x2="380" y2="120" stroke="#E5E5E5" strokeWidth="1" strokeDasharray="5,5" />
-                
-                {/* Labels */}
-                <text x="140" y="25" fontSize="12" fill="#666" fontWeight="500">Traditional saving</text>
-                <text x="250" y="25" fontSize="12" fill="#000" fontWeight="600">Jarify</text>
-                
-                {/* Month labels */}
-                <text x="70" y="220" fontSize="12" fill="#666">Month 1</text>
-                <text x="320" y="220" fontSize="12" fill="#666">Month 6</text>
-                
-                {/* Traditional savings path (light brown/beige) */}
-                <motion.path
-                  d="M 60,90 Q 150,110 200,140 T 360,160"
-                  fill="none"
-                  stroke="#C9B5A0"
-                  strokeWidth="3"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: 2, ease: "easeInOut" }}
-                />
-                
-                {/* Jarify path (black) */}
-                <motion.path
-                  d="M 60,90 Q 150,70 240,55 T 360,50"
-                  fill="none"
-                  stroke="#000"
-                  strokeWidth="3"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: 2, delay: 0.3, ease: "easeInOut" }}
-                />
-                
-                {/* Start point */}
-                <motion.circle
-                  cx="60"
-                  cy="90"
-                  r="5"
-                  fill="#000"
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.5 }}
-                />
-                
-                {/* End points */}
-                <motion.circle
-                  cx="360"
-                  cy="160"
-                  r="5"
-                  fill="#C9B5A0"
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 2 }}
-                />
-                <motion.circle
-                  cx="360"
-                  cy="50"
-                  r="6"
-                  fill="#000"
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 2.3 }}
-                />
-                
-                {/* Shaded area under Jarify line */}
-                <motion.path
-                  d="M 60,90 Q 150,70 240,55 T 360,50 L 360,200 L 60,200 Z"
-                  fill="#F5EDE4"
-                  opacity="0.3"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 0.3 }}
-                  transition={{ duration: 1, delay: 2.5 }}
-                />
-              </svg>
-              
-              <motion.p
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 2.8 }}
-                className="text-center text-gray-700 mt-6 px-4"
-              >
-                80% of Jarify users maintain their savings even 6 months later
-              </motion.p>
-            </div>
-          </motion.section>
-        )}
-
-        {step === 7 && (
           <section className="mt-8">
             <h1 className="text-2xl font-semibold text-gray-900">How much can you save each month?</h1>
             <p className="text-gray-400 mt-2">
@@ -542,7 +440,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
           </section>
         )}
 
-        {step === 8 && (
+        {step === 7 && (
           <motion.section 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -562,7 +460,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
           </motion.section>
         )}
 
-        {step === 9 && (
+        {step === 8 && (
           <section className="mt-8">
             <h1 className="text-2xl font-semibold text-gray-900">What's your main expense?</h1>
             <p className="text-gray-400 mt-2">
@@ -589,123 +487,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
           </section>
         )}
 
-        {step === 10 && (
-          <motion.section 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            className="mt-8"
-          >
-            <h1 className="text-3xl font-bold text-gray-900 mb-6">You have great potential to reach your goal</h1>
-            
-            <div className="bg-[#FAF7F4] rounded-3xl p-6 mt-8">
-              <h2 className="text-lg font-medium text-gray-700 mb-4">Your savings progress</h2>
-              
-              <svg viewBox="0 0 400 300" className="w-full h-auto">
-                {/* Grid lines */}
-                <line x1="40" y1="240" x2="380" y2="240" stroke="#E5E5E5" strokeWidth="2" />
-                <line x1="40" y1="120" x2="380" y2="120" stroke="#E5E5E5" strokeWidth="1" strokeDasharray="5,5" />
-                
-                {/* Time labels */}
-                <text x="70" y="265" fontSize="14" fill="#666" fontWeight="500">3 Days</text>
-                <text x="180" y="265" fontSize="14" fill="#666" fontWeight="500">7 Days</text>
-                <text x="310" y="265" fontSize="14" fill="#666" fontWeight="500">30 Days</text>
-                
-                {/* Progress line segments */}
-                <motion.line
-                  x1="80"
-                  y1="210"
-                  x2="200"
-                  y2="180"
-                  stroke="#000"
-                  strokeWidth="3"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: 0.8, ease: "easeInOut" }}
-                />
-                <motion.line
-                  x1="200"
-                  y1="180"
-                  x2="330"
-                  y2="80"
-                  stroke="#000"
-                  strokeWidth="3"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: 1.2, delay: 0.8, ease: "easeInOut" }}
-                />
-                
-                {/* Shaded area under line */}
-                <motion.path
-                  d="M 80,210 L 200,180 L 330,80 L 330,240 L 80,240 Z"
-                  fill="#F5EDE4"
-                  opacity="0.4"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 0.4 }}
-                  transition={{ duration: 1, delay: 2 }}
-                />
-                
-                {/* Data points */}
-                <motion.circle
-                  cx="80"
-                  cy="210"
-                  r="6"
-                  fill="#fff"
-                  stroke="#000"
-                  strokeWidth="3"
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 0.3 }}
-                />
-                <motion.circle
-                  cx="200"
-                  cy="180"
-                  r="6"
-                  fill="#fff"
-                  stroke="#000"
-                  strokeWidth="3"
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 1.1 }}
-                />
-                <motion.circle
-                  cx="330"
-                  cy="80"
-                  r="10"
-                  fill="#C9B5A0"
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ delay: 2.2 }}
-                >
-                  <animate attributeName="r" values="10;12;10" dur="2s" repeatCount="indefinite" begin="2.5s" />
-                </motion.circle>
-                
-                {/* Trophy icon at the end */}
-                <motion.text
-                  x="325"
-                  y="87"
-                  fontSize="16"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 2.5 }}
-                >
-                  🏆
-                </motion.text>
-              </svg>
-              
-              <motion.p
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 2.8 }}
-                className="text-center text-gray-700 mt-6 px-4"
-              >
-                Based on Jarify's data, savings growth accelerates after 7 days as you build better habits!
-              </motion.p>
-            </div>
-          </motion.section>
-        )}
-
-        {step === 11 && (
+        {step === 9 && (
           <section className="mt-8">
             <h1 className="text-2xl font-semibold text-gray-900">What's most important to you?</h1>
             <p className="text-gray-400 mt-2">
@@ -732,7 +514,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
           </section>
         )}
 
-        {step === 12 && (
+        {step === 10 && (
           <motion.section 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -752,7 +534,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
           </motion.section>
         )}
 
-        {step === 13 && (
+        {step === 11 && (
           <section className="mt-8">
             <h1 className="text-2xl font-semibold text-gray-900">How much have you saved?</h1>
             <p className="text-gray-400 mt-2">
@@ -779,7 +561,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
           </section>
         )}
 
-        {step === 14 && (
+        {step === 12 && (
           <section className="mt-8">
             <h1 className="text-2xl font-semibold text-gray-900">What's your work situation?</h1>
             <p className="text-gray-400 mt-2">
@@ -806,7 +588,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
           </section>
         )}
 
-        {step === 15 && (
+        {step === 13 && (
           <section className="mt-8">
             <h1 className="text-2xl font-semibold text-gray-900">How many people depend on you?</h1>
             <p className="text-gray-400 mt-2">
@@ -833,7 +615,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
           </section>
         )}
 
-        {step === 16 && (
+        {step === 14 && (
           <motion.section 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -853,7 +635,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
           </motion.section>
         )}
 
-        {step === 17 && (
+        {step === 15 && (
           <section className="mt-8">
             <h1 className="text-2xl font-semibold text-gray-900">How did you find us?</h1>
             <p className="text-gray-400 mt-2">Select a platform.</p>
@@ -876,7 +658,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
           </section>
         )}
 
-        {step === 18 && (
+        {step === 16 && (
           <motion.section 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -896,7 +678,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
           </motion.section>
         )}
 
-        {step === 19 && (
+        {step === 17 && (
           <section className="mt-20 text-center">
             <h1 className="text-5xl font-bold mb-4">{progress}%</h1>
             <p className="text-lg font-semibold mb-4">We're setting Jars Goals for you</p>
@@ -933,7 +715,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
         )}
       </div>
 
-      {!complete && step < 19 && (
+      {!complete && step < 17 && (
         <div className="fixed bottom-6 left-6 right-6">
           <div className="max-w-3xl mx-auto">
             <button
