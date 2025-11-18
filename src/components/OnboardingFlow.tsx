@@ -177,12 +177,9 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
       <div className="min-h-screen bg-white p-6 flex flex-col justify-between">
         <div>
           <h1 className="text-3xl font-bold text-center mb-6">Start your 3-day FREE trial to continue.</h1>
-          <div className="flex flex-col items-start mx-auto w-80 relative pb-4">
+          <div className="flex flex-col items-start mx-auto w-80 relative">
             {/* Vertical connecting line */}
-            <div className="absolute left-[15px] top-[20px] bottom-[28px] w-[14px] bg-black/20"></div>
-            
-            {/* Circle at the end of the line */}
-            <div className="absolute left-[7px] bottom-[12px] w-[30px] h-[30px] rounded-full bg-black/20 z-0"></div>
+            <div className="absolute left-[10.5px] top-[20px] bottom-[20px] w-[11px] bg-black/20 rounded-b-full"></div>
             
             <div className="flex items-start gap-3 mb-6 relative">
               <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center text-white z-10 flex-shrink-0">
