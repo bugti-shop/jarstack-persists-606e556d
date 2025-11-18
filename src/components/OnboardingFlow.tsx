@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Confetti from 'react-confetti';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PiggyBank, CreditCard, ShieldAlert, DollarSign, Calendar, TrendingUp } from 'lucide-react';
+import { PiggyBank, CreditCard, ShieldAlert, DollarSign, Calendar, TrendingUp, Unlock, Bell, Crown } from 'lucide-react';
 import Welcome from '@/components/Welcome';
 import infoHome from '@/assets/info-home.png';
 import infoNotes from '@/assets/info-notes.png';
@@ -177,26 +177,35 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
       <div className="min-h-screen bg-white p-6 flex flex-col justify-between">
         <div>
           <h1 className="text-3xl font-bold text-center mb-6">Start your 3-day FREE trial to continue.</h1>
-          <div className="flex flex-col items-start mx-auto w-80 relative">
+          <div className="flex flex-col items-start mx-auto w-80 relative pb-4">
             {/* Vertical connecting line */}
-            <div className="absolute left-[15px] top-[20px] bottom-[20px] w-[2px] bg-black/20"></div>
+            <div className="absolute left-[15px] top-[20px] bottom-[28px] w-[14px] bg-black/20"></div>
+            
+            {/* Circle at the end of the line */}
+            <div className="absolute left-[7px] bottom-[12px] w-[30px] h-[30px] rounded-full bg-black/20 z-0"></div>
             
             <div className="flex items-start gap-3 mb-6 relative">
-              <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center text-white z-10 flex-shrink-0">🔓</div>
+              <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center text-white z-10 flex-shrink-0">
+                <Unlock size={16} className="text-white" strokeWidth={2} />
+              </div>
               <div>
                 <p className="font-semibold">Today</p>
                 <p className="text-gray-500 text-sm">Unlock all app features like Calculating, Adding Notes, Unlimited Goals and more.</p>
               </div>
             </div>
             <div className="flex items-start gap-3 mb-6 relative">
-              <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center text-white z-10 flex-shrink-0">🔔</div>
+              <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center text-white z-10 flex-shrink-0">
+                <Bell size={16} className="text-white" strokeWidth={2} />
+              </div>
               <div>
                 <p className="font-semibold">In 2 Days - Reminder</p>
                 <p className="text-gray-500 text-sm">We'll send you a reminder before your trial ends.</p>
               </div>
             </div>
             <div className="flex items-start gap-3 relative">
-              <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center text-white z-10 flex-shrink-0">👑</div>
+              <div className="w-8 h-8 rounded-full bg-black flex items-center justify-center text-white z-10 flex-shrink-0">
+                <Crown size={16} className="text-white" strokeWidth={2} />
+              </div>
               <div>
                 <p className="font-semibold">In 3 Days - Billing Starts</p>
                 <p className="text-gray-500 text-sm">You'll be charged after 3 days unless you cancel anytime before.</p>
