@@ -164,7 +164,33 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
   }, [step]);
 
   const handleContinue = () => {
-    if (step < 17) setStep(step + 1);
+    if (step === 2) {
+      setStep(2.5);
+    } else if (step === 2.5) {
+      setStep(3);
+    } else if (step === 8) {
+      setStep(8.5);
+    } else if (step === 8.5) {
+      setStep(9);
+    } else if (step < 17) {
+      setStep(step + 1);
+    }
+  };
+
+  const handleBack = () => {
+    if (step === 1) {
+      setShowWelcome(true);
+    } else if (step === 2.5) {
+      setStep(2);
+    } else if (step === 3) {
+      setStep(2.5);
+    } else if (step === 8.5) {
+      setStep(8);
+    } else if (step === 9) {
+      setStep(8.5);
+    } else {
+      setStep(step - 1);
+    }
   };
 
   // Show welcome screen first
@@ -267,7 +293,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
       <div>
         <div className="flex items-center gap-4">
           {step >= 1 && (
-            <button onClick={() => step === 1 ? setShowWelcome(true) : setStep(step - 1)} className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
+            <button onClick={handleBack} className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                 <path d="M15 18L9 12L15 6" stroke="#111827" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
@@ -337,6 +363,55 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
               })}
             </div>
           </section>
+        )}
+
+        {step === 2.5 && (
+          <motion.section 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="mt-8 text-center flex flex-col items-center"
+          >
+            <h1 className="text-2xl font-semibold text-gray-900 mb-4">Income Growth Trends</h1>
+            <p className="text-gray-400 mb-8">Track how your savings grow over time</p>
+            
+            <div className="relative w-full max-w-sm h-64 flex items-end justify-around gap-2 px-8">
+              {[40, 65, 85, 95].map((height, index) => (
+                <motion.div
+                  key={index}
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: `${height}%`, opacity: 1 }}
+                  transition={{ 
+                    duration: 0.8, 
+                    delay: index * 0.15,
+                    ease: "easeOut"
+                  }}
+                  className="flex-1 bg-black rounded-t-xl relative"
+                  style={{ maxWidth: '60px' }}
+                >
+                  <motion.div
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ 
+                      duration: 0.4, 
+                      delay: index * 0.15 + 0.5,
+                      ease: "backOut"
+                    }}
+                    className="absolute -top-8 left-1/2 -translate-x-1/2 bg-stone-100 px-2 py-1 rounded-md text-xs font-semibold whitespace-nowrap"
+                  >
+                    ${(index + 1) * 250}
+                  </motion.div>
+                </motion.div>
+              ))}
+            </div>
+            
+            <div className="flex justify-around w-full max-w-sm px-8 mt-4">
+              <span className="text-xs text-gray-500">Jan</span>
+              <span className="text-xs text-gray-500">Feb</span>
+              <span className="text-xs text-gray-500">Mar</span>
+              <span className="text-xs text-gray-500">Apr</span>
+            </div>
+          </motion.section>
         )}
 
         {step === 3 && (
@@ -485,6 +560,73 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
               })}
             </div>
           </section>
+        )}
+
+        {step === 8.5 && (
+          <motion.section 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="mt-8 text-center flex flex-col items-center"
+          >
+            <h1 className="text-2xl font-semibold text-gray-900 mb-4">Expense Breakdown</h1>
+            <p className="text-gray-400 mb-8">Understand where your money goes</p>
+            
+            <div className="relative w-full max-w-sm">
+              <svg viewBox="0 0 200 200" className="w-64 h-64 mx-auto">
+                {[
+                  { percentage: 35, color: '#000000', delay: 0, label: 'Housing' },
+                  { percentage: 25, color: '#1c1917', delay: 0.2, label: 'Food' },
+                  { percentage: 20, color: '#292524', delay: 0.4, label: 'Transport' },
+                  { percentage: 20, color: '#44403c', delay: 0.6, label: 'Others' },
+                ].map((segment, index) => {
+                  const previousPercentages = [0, 35, 60, 80][index];
+                  const rotation = (previousPercentages / 100) * 360 - 90;
+                  const circumference = 2 * Math.PI * 80;
+                  const strokeDasharray = `${(segment.percentage / 100) * circumference} ${circumference}`;
+                  
+                  return (
+                    <motion.circle
+                      key={index}
+                      cx="100"
+                      cy="100"
+                      r="80"
+                      fill="none"
+                      stroke={segment.color}
+                      strokeWidth="40"
+                      strokeDasharray={strokeDasharray}
+                      initial={{ strokeDashoffset: circumference, opacity: 0 }}
+                      animate={{ strokeDashoffset: 0, opacity: 1 }}
+                      transition={{ 
+                        duration: 1, 
+                        delay: segment.delay,
+                        ease: "easeOut"
+                      }}
+                      style={{
+                        transformOrigin: 'center',
+                        transform: `rotate(${rotation}deg)`
+                      }}
+                    />
+                  );
+                })}
+              </svg>
+              
+              <div className="grid grid-cols-2 gap-3 mt-6">
+                {['Housing 35%', 'Food 25%', 'Transport 20%', 'Others 20%'].map((label, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ x: -20, opacity: 0 }}
+                    animate={{ x: 0, opacity: 1 }}
+                    transition={{ duration: 0.5, delay: index * 0.15 + 0.8 }}
+                    className="flex items-center gap-2 text-sm"
+                  >
+                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: ['#000000', '#1c1917', '#292524', '#44403c'][index] }} />
+                    <span className="text-gray-600">{label}</span>
+                  </motion.div>
+                ))}
+              </div>
+            </div>
+          </motion.section>
         )}
 
         {step === 9 && (
