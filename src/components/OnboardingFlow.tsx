@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Confetti from 'react-confetti';
 import { motion, AnimatePresence } from 'framer-motion';
-import { PiggyBank, CreditCard, ShieldAlert, DollarSign, Calendar, TrendingUp, Unlock, Bell, Crown } from 'lucide-react';
+import { PiggyBank, CreditCard, ShieldAlert, DollarSign, Calendar, TrendingUp, Unlock, Bell, Crown, ThumbsUp, ThumbsDown } from 'lucide-react';
 import Welcome from '@/components/Welcome';
 import infoHome from '@/assets/info-home.png';
 import infoNotes from '@/assets/info-notes.png';
@@ -27,6 +27,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
   const [employment, setEmployment] = useState('');
   const [dependents, setDependents] = useState('');
   const [source, setSource] = useState('');
+  const [triedOtherApp, setTriedOtherApp] = useState('');
   const [progress, setProgress] = useState(0);
   const [complete, setComplete] = useState(false);
   const [showPaywall, setShowPaywall] = useState(false);
@@ -168,10 +169,22 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
       setStep(2.5);
     } else if (step === 2.5) {
       setStep(3);
+    } else if (step === 4) {
+      setStep(4.5);
+    } else if (step === 4.5) {
+      setStep(5);
+    } else if (step === 6) {
+      setStep(6.5);
+    } else if (step === 6.5) {
+      setStep(7);
     } else if (step === 8) {
       setStep(8.5);
     } else if (step === 8.5) {
       setStep(9);
+    } else if (step === 9) {
+      setStep(9.5);
+    } else if (step === 9.5) {
+      setStep(10);
     } else if (step < 17) {
       setStep(step + 1);
     }
@@ -184,10 +197,22 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
       setStep(2);
     } else if (step === 3) {
       setStep(2.5);
+    } else if (step === 4.5) {
+      setStep(4);
+    } else if (step === 5) {
+      setStep(4.5);
+    } else if (step === 6.5) {
+      setStep(6);
+    } else if (step === 7) {
+      setStep(6.5);
     } else if (step === 8.5) {
       setStep(8);
     } else if (step === 9) {
       setStep(8.5);
+    } else if (step === 9.5) {
+      setStep(9);
+    } else if (step === 10) {
+      setStep(9.5);
     } else {
       setStep(step - 1);
     }
@@ -468,6 +493,112 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
           </section>
         )}
 
+        {step === 4.5 && (
+          <motion.section 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="mt-8 text-center flex flex-col items-center"
+          >
+            <h1 className="text-2xl font-semibold text-gray-900 mb-2">You have great potential</h1>
+            <h1 className="text-2xl font-semibold text-gray-900 mb-4">to crush your goal</h1>
+            
+            <div className="bg-stone-50 rounded-3xl p-8 w-full max-w-md mt-4">
+              <p className="text-base font-semibold text-gray-900 mb-6 text-left">Your savings transition</p>
+              
+              <svg viewBox="0 0 400 280" className="w-full h-64">
+                {/* Grid lines */}
+                <line x1="40" y1="40" x2="40" y2="200" stroke="#d1d5db" strokeWidth="1" />
+                <line x1="40" y1="200" x2="380" y2="200" stroke="#000000" strokeWidth="2" />
+                
+                {/* Dotted reference line */}
+                <line x1="40" y1="120" x2="380" y2="120" stroke="#d1d5db" strokeWidth="1" strokeDasharray="4 4" />
+                
+                {/* Shaded area under curve */}
+                <motion.path
+                  d="M 80 180 Q 160 170 220 110 T 360 60 L 360 200 L 80 200 Z"
+                  fill="#d7ccc8"
+                  opacity="0.3"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 0.3 }}
+                  transition={{ duration: 1, delay: 0.3 }}
+                />
+                
+                {/* Main curve line */}
+                <motion.path
+                  d="M 80 180 Q 160 170 220 110 T 360 60"
+                  stroke="#a1887f"
+                  strokeWidth="3"
+                  fill="none"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{ duration: 1.5, ease: "easeOut" }}
+                />
+                
+                {/* Data points */}
+                {[
+                  { x: 80, y: 180, delay: 0.5 },
+                  { x: 220, y: 110, delay: 0.9 },
+                  { x: 360, y: 60, delay: 1.3, isTrophy: true }
+                ].map((point, index) => (
+                  <motion.g key={index}>
+                    {point.isTrophy ? (
+                      <>
+                        <motion.circle
+                          cx={point.x}
+                          cy={point.y}
+                          r="20"
+                          fill="#a1887f"
+                          initial={{ scale: 0 }}
+                          animate={{ scale: 1 }}
+                          transition={{ duration: 0.4, delay: point.delay, type: "spring" }}
+                        />
+                        <motion.text
+                          x={point.x}
+                          y={point.y + 5}
+                          textAnchor="middle"
+                          fontSize="18"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          transition={{ delay: point.delay + 0.2 }}
+                        >
+                          🏆
+                        </motion.text>
+                      </>
+                    ) : (
+                      <motion.circle
+                        cx={point.x}
+                        cy={point.y}
+                        r="6"
+                        fill="#000000"
+                        stroke="#ffffff"
+                        strokeWidth="3"
+                        initial={{ scale: 0 }}
+                        animate={{ scale: 1 }}
+                        transition={{ duration: 0.3, delay: point.delay }}
+                      />
+                    )}
+                  </motion.g>
+                ))}
+                
+                {/* X-axis labels */}
+                <text x="80" y="230" textAnchor="middle" fontSize="14" fill="#6b7280">3 Days</text>
+                <text x="220" y="230" textAnchor="middle" fontSize="14" fill="#6b7280">7 Days</text>
+                <text x="360" y="230" textAnchor="middle" fontSize="14" fill="#6b7280">30 Days</text>
+              </svg>
+              
+              <motion.p 
+                className="text-sm text-gray-600 mt-6 leading-relaxed"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.5 }}
+              >
+                Based on historical data, savings growth is usually delayed at first, but after 7 days, you can save like crazy!
+              </motion.p>
+            </div>
+          </motion.section>
+        )}
+
         {step === 5 && (
           <motion.section 
             initial={{ opacity: 0, y: 20 }}
@@ -513,6 +644,110 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
               })}
             </div>
           </section>
+        )}
+
+        {step === 6.5 && (
+          <motion.section 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ duration: 0.5 }}
+            className="mt-8 text-center flex flex-col items-center"
+          >
+            <h1 className="text-2xl font-semibold text-gray-900 mb-2">Jarify creates</h1>
+            <h1 className="text-2xl font-semibold text-gray-900 mb-4">long-term results</h1>
+            
+            <div className="bg-stone-50 rounded-3xl p-8 w-full max-w-md mt-4">
+              <p className="text-base font-semibold text-gray-900 mb-6 text-left">Your savings</p>
+              
+              <svg viewBox="0 0 400 280" className="w-full h-64">
+                {/* Grid lines */}
+                <line x1="40" y1="40" x2="40" y2="200" stroke="#d1d5db" strokeWidth="1" />
+                <line x1="40" y1="200" x2="380" y2="200" stroke="#000000" strokeWidth="2" />
+                
+                {/* Dotted reference lines */}
+                <line x1="40" y1="100" x2="380" y2="100" stroke="#d1d5db" strokeWidth="1" strokeDasharray="4 4" />
+                <line x1="40" y1="150" x2="380" y2="150" stroke="#d1d5db" strokeWidth="1" strokeDasharray="4 4" />
+                
+                {/* Traditional approach curve (going up - yo-yo effect) */}
+                <motion.path
+                  d="M 80 100 Q 140 140 200 120 Q 260 100 320 70 Q 350 50 380 60"
+                  stroke="#ef4444"
+                  strokeWidth="3"
+                  fill="none"
+                  strokeDasharray="5 5"
+                  initial={{ pathLength: 0, opacity: 0 }}
+                  animate={{ pathLength: 1, opacity: 1 }}
+                  transition={{ duration: 1.5, delay: 0.3, ease: "easeOut" }}
+                />
+                
+                {/* Jarify curve (steady decline to goal) */}
+                <motion.path
+                  d="M 80 100 Q 150 120 220 140 Q 290 155 380 170"
+                  stroke="#000000"
+                  strokeWidth="3"
+                  fill="none"
+                  initial={{ pathLength: 0 }}
+                  animate={{ pathLength: 1 }}
+                  transition={{ duration: 1.5, delay: 0.6, ease: "easeOut" }}
+                />
+                
+                {/* Data points for Jarify */}
+                {[
+                  { x: 80, y: 100, delay: 1.0 },
+                  { x: 380, y: 170, delay: 2.0 }
+                ].map((point, index) => (
+                  <motion.circle
+                    key={index}
+                    cx={point.x}
+                    cy={point.y}
+                    r="6"
+                    fill="#000000"
+                    stroke="#ffffff"
+                    strokeWidth="3"
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    transition={{ duration: 0.3, delay: point.delay }}
+                  />
+                ))}
+                
+                {/* Labels */}
+                <motion.g
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1.2 }}
+                >
+                  <rect x="100" y="55" width="80" height="24" rx="12" fill="#000000" />
+                  <text x="140" y="72" textAnchor="middle" fontSize="12" fill="#ffffff" fontWeight="600">Jarify</text>
+                </motion.g>
+                
+                <motion.text
+                  x="380"
+                  y="55"
+                  textAnchor="end"
+                  fontSize="13"
+                  fill="#6b7280"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 1.5 }}
+                >
+                  Traditional
+                </motion.text>
+                
+                {/* X-axis labels */}
+                <text x="80" y="230" textAnchor="middle" fontSize="14" fill="#6b7280">Month 1</text>
+                <text x="380" y="230" textAnchor="middle" fontSize="14" fill="#6b7280">Month 6</text>
+              </svg>
+              
+              <motion.p 
+                className="text-sm text-gray-600 mt-6 leading-relaxed"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 2.0 }}
+              >
+                80% of Jarify users maintain their savings goals even 6 months later
+              </motion.p>
+            </div>
+          </motion.section>
         )}
 
         {step === 7 && (
@@ -652,6 +887,59 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
                   </button>
                 );
               })}
+            </div>
+          </section>
+        )}
+
+        {step === 9.5 && (
+          <section className="mt-8">
+            <h1 className="text-2xl font-semibold text-gray-900">Have you tried any other</h1>
+            <h1 className="text-2xl font-semibold text-gray-900 mb-2">Saving App?</h1>
+            <p className="text-gray-400 mt-2">
+              Let us know your experience.
+            </p>
+            <div className="mt-8 flex gap-4 justify-center">
+              <button
+                onClick={() => setTriedOtherApp('yes')}
+                className={`flex-1 max-w-[160px] rounded-2xl py-6 px-6 shadow-sm transition-all ${
+                  triedOtherApp === 'yes' 
+                    ? 'bg-black text-white scale-105' 
+                    : 'bg-white text-gray-800 hover:scale-102'
+                }`}
+              >
+                <div className="flex flex-col items-center gap-3">
+                  <div className={`w-16 h-16 rounded-full flex items-center justify-center ${
+                    triedOtherApp === 'yes' ? 'bg-white' : 'bg-gray-100'
+                  }`}>
+                    <ThumbsUp 
+                      className={`w-8 h-8 ${triedOtherApp === 'yes' ? 'text-black' : 'text-gray-600'}`}
+                      strokeWidth={2}
+                    />
+                  </div>
+                  <span className="text-lg font-semibold">Yes</span>
+                </div>
+              </button>
+
+              <button
+                onClick={() => setTriedOtherApp('no')}
+                className={`flex-1 max-w-[160px] rounded-2xl py-6 px-6 shadow-sm transition-all ${
+                  triedOtherApp === 'no' 
+                    ? 'bg-black text-white scale-105' 
+                    : 'bg-white text-gray-800 hover:scale-102'
+                }`}
+              >
+                <div className="flex flex-col items-center gap-3">
+                  <div className={`w-16 h-16 rounded-full flex items-center justify-center ${
+                    triedOtherApp === 'no' ? 'bg-white' : 'bg-gray-100'
+                  }`}>
+                    <ThumbsDown 
+                      className={`w-8 h-8 ${triedOtherApp === 'no' ? 'text-black' : 'text-gray-600'}`}
+                      strokeWidth={2}
+                    />
+                  </div>
+                  <span className="text-lg font-semibold">No</span>
+                </div>
+              </button>
             </div>
           </section>
         )}
