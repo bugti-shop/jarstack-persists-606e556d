@@ -898,47 +898,43 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
             <p className="text-gray-400 mt-2">
               Let us know your experience.
             </p>
-            <div className="mt-8 flex gap-4 justify-center">
+            <div className="mt-24 space-y-4">
               <button
                 onClick={() => setTriedOtherApp('yes')}
-                className={`flex-1 max-w-[160px] rounded-2xl py-6 px-6 shadow-sm transition-all ${
+                className={`w-full rounded-3xl py-5 px-6 shadow-sm transition-all flex items-center gap-4 ${
                   triedOtherApp === 'yes' 
-                    ? 'bg-black text-white scale-105' 
-                    : 'bg-white text-gray-800 hover:scale-102'
+                    ? 'bg-[#1f2937] text-white' 
+                    : 'bg-[#1f2937] text-white'
                 }`}
               >
-                <div className="flex flex-col items-center gap-3">
-                  <div className={`w-16 h-16 rounded-full flex items-center justify-center ${
-                    triedOtherApp === 'yes' ? 'bg-white' : 'bg-gray-100'
-                  }`}>
-                    <ThumbsUp 
-                      className={`w-8 h-8 ${triedOtherApp === 'yes' ? 'text-black' : 'text-gray-600'}`}
-                      strokeWidth={2}
-                    />
-                  </div>
-                  <span className="text-lg font-semibold">Yes</span>
+                <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center flex-shrink-0">
+                  <ThumbsUp 
+                    className="w-7 h-7 text-[#1f2937]"
+                    strokeWidth={2}
+                    fill="#1f2937"
+                  />
                 </div>
+                <span className="text-xl font-medium">Yes</span>
               </button>
 
               <button
                 onClick={() => setTriedOtherApp('no')}
-                className={`flex-1 max-w-[160px] rounded-2xl py-6 px-6 shadow-sm transition-all ${
+                className={`w-full rounded-3xl py-5 px-6 shadow-sm transition-all flex items-center gap-4 ${
                   triedOtherApp === 'no' 
-                    ? 'bg-black text-white scale-105' 
-                    : 'bg-white text-gray-800 hover:scale-102'
+                    ? 'bg-[#1f2937] text-white' 
+                    : 'bg-[#f3f4f6] text-gray-900'
                 }`}
               >
-                <div className="flex flex-col items-center gap-3">
-                  <div className={`w-16 h-16 rounded-full flex items-center justify-center ${
-                    triedOtherApp === 'no' ? 'bg-white' : 'bg-gray-100'
-                  }`}>
-                    <ThumbsDown 
-                      className={`w-8 h-8 ${triedOtherApp === 'no' ? 'text-black' : 'text-gray-600'}`}
-                      strokeWidth={2}
-                    />
-                  </div>
-                  <span className="text-lg font-semibold">No</span>
+                <div className={`w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0 ${
+                  triedOtherApp === 'no' ? 'bg-white' : 'bg-white'
+                }`}>
+                  <ThumbsDown 
+                    className={`w-7 h-7 ${triedOtherApp === 'no' ? 'text-[#1f2937]' : 'text-[#1f2937]'}`}
+                    strokeWidth={2}
+                    fill={triedOtherApp === 'no' ? '#1f2937' : '#1f2937'}
+                  />
                 </div>
+                <span className="text-xl font-medium">No</span>
               </button>
             </div>
           </section>
