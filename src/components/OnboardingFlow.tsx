@@ -177,7 +177,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
       setStep(6.5);
     } else if (step === 6.5) {
       setStep(7);
-    } else if (step === 8) {
+    } else if (step === 7) {
       setStep(9);
     } else if (step === 9) {
       setStep(9.5);
@@ -204,7 +204,7 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
     } else if (step === 7) {
       setStep(6.5);
     } else if (step === 9) {
-      setStep(8);
+      setStep(7);
     } else if (step === 9.5) {
       setStep(9);
     } else if (step === 10) {
@@ -766,33 +766,6 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
           </motion.section>
         )}
 
-        {step === 8 && (
-          <section className="mt-8">
-            <h1 className="text-2xl font-semibold text-gray-900">What's your main expense?</h1>
-            <p className="text-gray-400 mt-2">
-              Select your largest spending category.
-            </p>
-            <div className="mt-8 space-y-4">
-              {expenseTypes.map(e => {
-                const IconComponent = e.icon;
-                return (
-                  <button
-                    key={e.id}
-                    onClick={() => setExpenseType(e.label)}
-                    className={`w-full text-left rounded-2xl py-4 px-4 shadow-sm transition flex items-center gap-3 ${expenseType === e.label ? 'bg-black text-white' : 'text-gray-800'}`}
-                    style={expenseType !== e.label ? { backgroundColor: '#f9f8fd' } : {}}
-                  >
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${expenseType === e.label ? 'bg-white' : 'bg-gray-200'}`}>
-                      <IconComponent className={`w-4 h-4 ${expenseType === e.label ? 'text-black' : 'text-gray-600'}`} />
-                    </div>
-                    <span className="text-base font-medium">{e.label}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </section>
-        )}
-
         {step === 9 && (
           <motion.section 
             initial={{ opacity: 0, y: 20 }}
@@ -800,76 +773,104 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="mt-8 text-center flex flex-col items-center relative"
           >
-            <div className="relative w-64 h-64 mx-auto mb-8 flex items-center justify-center">
+            {/* Lock icon above heading */}
+            <motion.div 
+              className="mb-6"
+              initial={{ opacity: 0, scale: 0.8 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ delay: 0.3 }}
+            >
+              <div className="w-16 h-16 rounded-2xl bg-black flex items-center justify-center">
+                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <rect x="5" y="11" width="14" height="10" rx="2" ry="2"/>
+                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+                </svg>
+              </div>
+            </motion.div>
+
+            <div className="relative w-72 h-72 mx-auto mb-8 flex items-center justify-center">
               {/* Gradient circular background */}
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100 opacity-60"></div>
               
-              {/* White center circle */}
-              <div className="absolute inset-[25%] rounded-full bg-white flex items-center justify-center shadow-sm">
-                {/* Hand illustration with dots */}
-                <svg viewBox="0 0 120 120" className="w-24 h-24">
-                  {/* Decorative dots around the hand */}
-                  {[0, 40, 80, 120, 160, 200, 240, 280, 320].map((angle, i) => {
+              {/* White center circle - increased size */}
+              <div className="absolute inset-[15%] rounded-full bg-white flex items-center justify-center shadow-sm">
+                {/* Clapping hands illustration with dots */}
+                <svg viewBox="0 0 200 200" className="w-40 h-40">
+                  {/* Decorative dots around the hands */}
+                  {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((angle, i) => {
                     const rad = (angle * Math.PI) / 180;
-                    const x = 60 + 45 * Math.cos(rad);
-                    const y = 60 + 45 * Math.sin(rad);
+                    const x = 100 + 75 * Math.cos(rad);
+                    const y = 100 + 75 * Math.sin(rad);
                     return (
                       <motion.circle
                         key={i}
                         cx={x}
                         cy={y}
-                        r="2"
+                        r="3"
                         fill="#000"
                         initial={{ opacity: 0, scale: 0 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: i * 0.1, duration: 0.3 }}
+                        transition={{ delay: i * 0.08, duration: 0.3 }}
                       />
                     );
                   })}
                   
-                  {/* Hand illustration */}
+                  {/* Left hand with sleeve */}
                   <motion.g
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.6, delay: 0.3 }}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, delay: 0.4 }}
                   >
-                    {/* Palm */}
+                    {/* Sleeve */}
                     <path
-                      d="M 45 65 Q 40 55 42 45 L 48 30 Q 50 25 54 28 L 56 50 Q 58 25 62 24 Q 65 23 66 28 L 67 50 Q 70 27 73 27 Q 76 27 77 32 L 78 52 Q 80 35 83 35 Q 86 35 87 40 L 87 60 Q 87 75 80 82 Q 73 88 65 88 Q 55 88 50 80 Z"
-                      fill="none"
+                      d="M 60 130 L 55 145 Q 54 150 58 152 L 68 152 Q 70 150 69 147 L 65 132"
+                      fill="#f3f4f6"
                       stroke="#000"
-                      strokeWidth="2"
+                      strokeWidth="2.5"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     />
+                    {/* Sleeve lines */}
+                    <line x1="57" y1="148" x2="66" y2="148" stroke="#000" strokeWidth="1.5"/>
                     
-                    {/* Wrist cuff detail */}
+                    {/* Palm and fingers */}
                     <path
-                      d="M 42 45 Q 40 48 40 52 L 45 65"
+                      d="M 65 132 Q 60 122 62 112 L 68 97 Q 70 92 74 95 L 76 117 Q 78 92 82 91 Q 85 90 86 95 L 87 117 Q 90 94 93 94 Q 96 94 97 99 L 98 119 Q 100 102 103 102 Q 106 102 107 107 L 107 127 Q 107 142 100 149 Q 93 155 85 155 Q 75 155 70 147 Z"
                       fill="none"
                       stroke="#000"
-                      strokeWidth="2"
+                      strokeWidth="2.5"
                       strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
+                  </motion.g>
+                  
+                  {/* Right hand with sleeve */}
+                  <motion.g
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ duration: 0.6, delay: 0.4 }}
+                  >
+                    {/* Sleeve */}
                     <path
-                      d="M 40 52 L 48 52"
+                      d="M 140 130 L 145 145 Q 146 150 142 152 L 132 152 Q 130 150 131 147 L 135 132"
+                      fill="#f3f4f6"
+                      stroke="#000"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    {/* Sleeve lines */}
+                    <line x1="134" y1="148" x2="143" y2="148" stroke="#000" strokeWidth="1.5"/>
+                    
+                    {/* Palm and fingers */}
+                    <path
+                      d="M 135 132 Q 140 122 138 112 L 132 97 Q 130 92 126 95 L 124 117 Q 122 92 118 91 Q 115 90 114 95 L 113 117 Q 110 94 107 94 Q 104 94 103 99 L 102 119 Q 100 102 97 102 Q 94 102 93 107 L 93 127 Q 93 142 100 149 Q 107 155 115 155 Q 125 155 130 147 Z"
                       fill="none"
                       stroke="#000"
-                      strokeWidth="1.5"
+                      strokeWidth="2.5"
                       strokeLinecap="round"
+                      strokeLinejoin="round"
                     />
-                    {[0, 3, 6].map((offset, i) => (
-                      <line
-                        key={i}
-                        x1={42 + offset}
-                        y1={52}
-                        x2={40 + offset}
-                        y2={56}
-                        stroke="#000"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                      />
-                    ))}
                   </motion.g>
                 </svg>
               </div>
@@ -884,22 +885,13 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
               Thank you for
             </motion.h1>
             <motion.h1 
-              className="text-3xl font-bold text-gray-900 mb-6"
+              className="text-3xl font-bold text-gray-900 mb-12"
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.6 }}
             >
               trusting us!
             </motion.h1>
-
-            <motion.p 
-              className="text-gray-500 mb-12 text-base flex items-center gap-2 justify-center"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ delay: 0.7 }}
-            >
-              Now let's personalize Cal AI for you... 🔒
-            </motion.p>
 
             <motion.div
               className="max-w-md mx-auto"
