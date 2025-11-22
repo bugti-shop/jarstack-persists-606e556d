@@ -178,8 +178,6 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
     } else if (step === 6.5) {
       setStep(7);
     } else if (step === 8) {
-      setStep(8.5);
-    } else if (step === 8.5) {
       setStep(9);
     } else if (step === 9) {
       setStep(9.5);
@@ -205,10 +203,8 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
       setStep(6);
     } else if (step === 7) {
       setStep(6.5);
-    } else if (step === 8.5) {
-      setStep(8);
     } else if (step === 9) {
-      setStep(8.5);
+      setStep(8);
     } else if (step === 9.5) {
       setStep(9);
     } else if (step === 10) {
@@ -797,98 +793,128 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
           </section>
         )}
 
-        {step === 8.5 && (
+        {step === 9 && (
           <motion.section 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            className="mt-8 text-center flex flex-col items-center"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6, ease: "easeOut" }}
+            className="mt-8 text-center flex flex-col items-center relative"
           >
-            <h1 className="text-2xl font-semibold text-gray-900 mb-4">Expense Breakdown</h1>
-            <p className="text-gray-400 mb-8">Understand where your money goes</p>
-            
-            <div className="relative w-full max-w-sm">
-              <svg viewBox="0 0 200 200" className="w-64 h-64 mx-auto">
-                {[
-                  { percentage: 35, color: '#000000', delay: 0, label: 'Housing' },
-                  { percentage: 25, color: '#1c1917', delay: 0.2, label: 'Food' },
-                  { percentage: 20, color: '#292524', delay: 0.4, label: 'Transport' },
-                  { percentage: 20, color: '#44403c', delay: 0.6, label: 'Others' },
-                ].map((segment, index) => {
-                  const previousPercentages = [0, 35, 60, 80][index];
-                  const rotation = (previousPercentages / 100) * 360 - 90;
-                  const circumference = 2 * Math.PI * 80;
-                  const strokeDasharray = `${(segment.percentage / 100) * circumference} ${circumference}`;
-                  
-                  return (
-                    <motion.circle
-                      key={index}
-                      cx="100"
-                      cy="100"
-                      r="80"
-                      fill="none"
-                      stroke={segment.color}
-                      strokeWidth="40"
-                      strokeDasharray={strokeDasharray}
-                      initial={{ strokeDashoffset: circumference, opacity: 0 }}
-                      animate={{ strokeDashoffset: 0, opacity: 1 }}
-                      transition={{ 
-                        duration: 1, 
-                        delay: segment.delay,
-                        ease: "easeOut"
-                      }}
-                      style={{
-                        transformOrigin: 'center',
-                        transform: `rotate(${rotation}deg)`
-                      }}
-                    />
-                  );
-                })}
-              </svg>
+            <div className="relative w-64 h-64 mx-auto mb-8 flex items-center justify-center">
+              {/* Gradient circular background */}
+              <div className="absolute inset-0 rounded-full bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100 opacity-60"></div>
               
-              <div className="grid grid-cols-2 gap-3 mt-6">
-                {['Housing 35%', 'Food 25%', 'Transport 20%', 'Others 20%'].map((label, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ x: -20, opacity: 0 }}
-                    animate={{ x: 0, opacity: 1 }}
-                    transition={{ duration: 0.5, delay: index * 0.15 + 0.8 }}
-                    className="flex items-center gap-2 text-sm"
+              {/* White center circle */}
+              <div className="absolute inset-[25%] rounded-full bg-white flex items-center justify-center shadow-sm">
+                {/* Hand illustration with dots */}
+                <svg viewBox="0 0 120 120" className="w-24 h-24">
+                  {/* Decorative dots around the hand */}
+                  {[0, 40, 80, 120, 160, 200, 240, 280, 320].map((angle, i) => {
+                    const rad = (angle * Math.PI) / 180;
+                    const x = 60 + 45 * Math.cos(rad);
+                    const y = 60 + 45 * Math.sin(rad);
+                    return (
+                      <motion.circle
+                        key={i}
+                        cx={x}
+                        cy={y}
+                        r="2"
+                        fill="#000"
+                        initial={{ opacity: 0, scale: 0 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: i * 0.1, duration: 0.3 }}
+                      />
+                    );
+                  })}
+                  
+                  {/* Hand illustration */}
+                  <motion.g
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{ duration: 0.6, delay: 0.3 }}
                   >
-                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: ['#000000', '#1c1917', '#292524', '#44403c'][index] }} />
-                    <span className="text-gray-600">{label}</span>
-                  </motion.div>
-                ))}
+                    {/* Palm */}
+                    <path
+                      d="M 45 65 Q 40 55 42 45 L 48 30 Q 50 25 54 28 L 56 50 Q 58 25 62 24 Q 65 23 66 28 L 67 50 Q 70 27 73 27 Q 76 27 77 32 L 78 52 Q 80 35 83 35 Q 86 35 87 40 L 87 60 Q 87 75 80 82 Q 73 88 65 88 Q 55 88 50 80 Z"
+                      fill="none"
+                      stroke="#000"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    
+                    {/* Wrist cuff detail */}
+                    <path
+                      d="M 42 45 Q 40 48 40 52 L 45 65"
+                      fill="none"
+                      stroke="#000"
+                      strokeWidth="2"
+                      strokeLinecap="round"
+                    />
+                    <path
+                      d="M 40 52 L 48 52"
+                      fill="none"
+                      stroke="#000"
+                      strokeWidth="1.5"
+                      strokeLinecap="round"
+                    />
+                    {[0, 3, 6].map((offset, i) => (
+                      <line
+                        key={i}
+                        x1={42 + offset}
+                        y1={52}
+                        x2={40 + offset}
+                        y2={56}
+                        stroke="#000"
+                        strokeWidth="1.5"
+                        strokeLinecap="round"
+                      />
+                    ))}
+                  </motion.g>
+                </svg>
               </div>
             </div>
-          </motion.section>
-        )}
 
-        {step === 9 && (
-          <section className="mt-8">
-            <h1 className="text-2xl font-semibold text-gray-900">What's most important to you?</h1>
-            <p className="text-gray-400 mt-2">
-              Choose your top financial priority.
-            </p>
-            <div className="mt-8 space-y-4">
-              {priorities.map(p => {
-                const IconComponent = p.icon;
-                return (
-                  <button
-                    key={p.id}
-                    onClick={() => setPriority(p.label)}
-                    className={`w-full text-left rounded-2xl py-4 px-4 shadow-sm transition flex items-center gap-3 ${priority === p.label ? 'bg-black text-white' : 'text-gray-800'}`}
-                    style={priority !== p.label ? { backgroundColor: '#f9f8fd' } : {}}
-                  >
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${priority === p.label ? 'bg-white' : 'bg-gray-200'}`}>
-                      <IconComponent className={`w-4 h-4 ${priority === p.label ? 'text-black' : 'text-gray-600'}`} />
-                    </div>
-                    <span className="text-base font-medium">{p.label}</span>
-                  </button>
-                );
-              })}
-            </div>
-          </section>
+            <motion.h1 
+              className="text-3xl font-bold text-gray-900 mb-2"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5 }}
+            >
+              Thank you for
+            </motion.h1>
+            <motion.h1 
+              className="text-3xl font-bold text-gray-900 mb-6"
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6 }}
+            >
+              trusting us!
+            </motion.h1>
+
+            <motion.p 
+              className="text-gray-500 mb-12 text-base flex items-center gap-2 justify-center"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.7 }}
+            >
+              Now let's personalize Cal AI for you... 🔒
+            </motion.p>
+
+            <motion.div
+              className="max-w-md mx-auto"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8 }}
+            >
+              <h2 className="text-lg font-semibold text-gray-900 mb-3">
+                Your privacy and security matter to us.
+              </h2>
+              <p className="text-gray-600 text-sm leading-relaxed">
+                We promise to always keep your personal information private and secure.
+              </p>
+            </motion.div>
+          </motion.section>
         )}
 
         {step === 9.5 && (
