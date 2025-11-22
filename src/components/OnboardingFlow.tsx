@@ -8,12 +8,12 @@ import infoNotes from '@/assets/info-notes.png';
 import infoFolders from '@/assets/info-folders.png';
 import infoJar from '@/assets/info-jar.png';
 import infoTransactions from '@/assets/info-transactions.png';
-
 interface OnboardingFlowProps {
   onComplete: () => void;
 }
-
-export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
+export default function OnboardingFlow({
+  onComplete
+}: OnboardingFlowProps) {
   const [showWelcome, setShowWelcome] = useState(true);
   const [step, setStep] = useState(1);
   const [goal, setGoal] = useState('');
@@ -36,22 +36,10 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
 
   // Preload all images for fast rendering
   useEffect(() => {
-    const imagesToPreload = [
-      infoHome,
-      infoNotes,
-      infoFolders,
-      infoJar,
-      infoTransactions,
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Tiktok_icon.svg/2048px-Tiktok_icon.svg.png',
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/2880px-Google_2015_logo.svg.png',
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/YouTube_social_white_squircle_%282017%29.svg/2048px-YouTube_social_white_squircle_%282017%29.svg.png',
-      'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Android_robot.svg/1745px-Android_robot.svg.png',
-    ];
-
+    const imagesToPreload = [infoHome, infoNotes, infoFolders, infoJar, infoTransactions, 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Tiktok_icon.svg/2048px-Tiktok_icon.svg.png', 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_2015_logo.svg/2880px-Google_2015_logo.svg.png', 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/75/YouTube_social_white_squircle_%282017%29.svg/2048px-YouTube_social_white_squircle_%282017%29.svg.png', 'https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Android_robot.svg/1745px-Android_robot.svg.png'];
     let loadedCount = 0;
     const totalImages = imagesToPreload.length;
-
-    imagesToPreload.forEach((src) => {
+    imagesToPreload.forEach(src => {
       const img = new Image();
       img.onload = () => {
         loadedCount++;
@@ -72,79 +60,163 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
     const timeout = setTimeout(() => {
       setImagesLoaded(true);
     }, 2000);
-
     return () => clearTimeout(timeout);
   }, []);
-
-  const goals = [
-    { id: 'lose', label: 'Saving Money', icon: PiggyBank },
-    { id: 'maintain', label: 'Debt Pay off', icon: CreditCard },
-    { id: 'gain', label: 'Emergency', icon: ShieldAlert },
-  ];
-
-  const incomeRanges = [
-    { id: '1', label: 'Under $1,000', icon: DollarSign },
-    { id: '2', label: '$1,000 - $3,000', icon: DollarSign },
-    { id: '3', label: '$3,000 - $5,000', icon: DollarSign },
-  ];
-
-  const saveAmounts = [
-    { id: '1', label: '$50 - $100', icon: PiggyBank },
-    { id: '2', label: '$100 - $300', icon: PiggyBank },
-    { id: '3', label: '$300 - $500', icon: PiggyBank },
-  ];
-
-  const timelines = [
-    { id: '1', label: '3 months', icon: Calendar },
-    { id: '2', label: '6 months', icon: Calendar },
-    { id: '3', label: '1 year or more', icon: Calendar },
-  ];
-
-  const debtAmounts = [
-    { id: '1', label: 'No debt', icon: ShieldAlert },
-    { id: '2', label: 'Under $5,000', icon: CreditCard },
-    { id: '3', label: '$5,000 - $20,000', icon: CreditCard },
-  ];
-
-  const expenseTypes = [
-    { id: '1', label: 'Housing', icon: TrendingUp },
-    { id: '2', label: 'Transportation', icon: TrendingUp },
-    { id: '3', label: 'Food & Groceries', icon: TrendingUp },
-  ];
-
-  const priorities = [
-    { id: '1', label: 'Building Emergency Fund', icon: ShieldAlert },
-    { id: '2', label: 'Paying Off Debt', icon: CreditCard },
-    { id: '3', label: 'Saving for Big Purchase', icon: PiggyBank },
-  ];
-
-  const currentSavingsOptions = [
-    { id: '1', label: 'Under $500', icon: DollarSign },
-    { id: '2', label: '$500 - $2,000', icon: DollarSign },
-    { id: '3', label: 'Over $2,000', icon: DollarSign },
-  ];
-
-  const employmentOptions = [
-    { id: '1', label: 'Full-time', icon: TrendingUp },
-    { id: '2', label: 'Part-time', icon: TrendingUp },
-    { id: '3', label: 'Self-employed', icon: TrendingUp },
-  ];
-
-  const dependentsOptions = [
-    { id: '1', label: 'None', icon: Calendar },
-    { id: '2', label: '1-2 people', icon: Calendar },
-    { id: '3', label: '3+ people', icon: Calendar },
-  ];
-
-  const sources = [
-    { name: 'TikTok', color: '#000000', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Tiktok_icon.svg/2048px-Tiktok_icon.svg.png' },
-    { name: 'YouTube', color: '#000000', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/YouTube_social_white_square_%282017%29.svg/1024px-YouTube_social_white_square_%282017%29.svg.png' },
-    { name: 'Google', color: '#000000', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/2048px-Google_%22G%22_logo.svg.png' },
-    { name: 'Play Store', color: '#000000', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_Play_2022_icon.svg/1856px-Google_Play_2022_icon.svg.png' },
-    { name: 'Facebook', color: '#000000', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/2023_Facebook_icon.svg/2048px-2023_Facebook_icon.svg.png'},
-    { name: 'LinkedIn', color: '#000000', logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/LinkedIn_icon.svg/2048px-LinkedIn_icon.svg.png' },
-  ];
-
+  const goals = [{
+    id: 'lose',
+    label: 'Saving Money',
+    icon: PiggyBank
+  }, {
+    id: 'maintain',
+    label: 'Debt Pay off',
+    icon: CreditCard
+  }, {
+    id: 'gain',
+    label: 'Emergency',
+    icon: ShieldAlert
+  }];
+  const incomeRanges = [{
+    id: '1',
+    label: 'Under $1,000',
+    icon: DollarSign
+  }, {
+    id: '2',
+    label: '$1,000 - $3,000',
+    icon: DollarSign
+  }, {
+    id: '3',
+    label: '$3,000 - $5,000',
+    icon: DollarSign
+  }];
+  const saveAmounts = [{
+    id: '1',
+    label: '$50 - $100',
+    icon: PiggyBank
+  }, {
+    id: '2',
+    label: '$100 - $300',
+    icon: PiggyBank
+  }, {
+    id: '3',
+    label: '$300 - $500',
+    icon: PiggyBank
+  }];
+  const timelines = [{
+    id: '1',
+    label: '3 months',
+    icon: Calendar
+  }, {
+    id: '2',
+    label: '6 months',
+    icon: Calendar
+  }, {
+    id: '3',
+    label: '1 year or more',
+    icon: Calendar
+  }];
+  const debtAmounts = [{
+    id: '1',
+    label: 'No debt',
+    icon: ShieldAlert
+  }, {
+    id: '2',
+    label: 'Under $5,000',
+    icon: CreditCard
+  }, {
+    id: '3',
+    label: '$5,000 - $20,000',
+    icon: CreditCard
+  }];
+  const expenseTypes = [{
+    id: '1',
+    label: 'Housing',
+    icon: TrendingUp
+  }, {
+    id: '2',
+    label: 'Transportation',
+    icon: TrendingUp
+  }, {
+    id: '3',
+    label: 'Food & Groceries',
+    icon: TrendingUp
+  }];
+  const priorities = [{
+    id: '1',
+    label: 'Building Emergency Fund',
+    icon: ShieldAlert
+  }, {
+    id: '2',
+    label: 'Paying Off Debt',
+    icon: CreditCard
+  }, {
+    id: '3',
+    label: 'Saving for Big Purchase',
+    icon: PiggyBank
+  }];
+  const currentSavingsOptions = [{
+    id: '1',
+    label: 'Under $500',
+    icon: DollarSign
+  }, {
+    id: '2',
+    label: '$500 - $2,000',
+    icon: DollarSign
+  }, {
+    id: '3',
+    label: 'Over $2,000',
+    icon: DollarSign
+  }];
+  const employmentOptions = [{
+    id: '1',
+    label: 'Full-time',
+    icon: TrendingUp
+  }, {
+    id: '2',
+    label: 'Part-time',
+    icon: TrendingUp
+  }, {
+    id: '3',
+    label: 'Self-employed',
+    icon: TrendingUp
+  }];
+  const dependentsOptions = [{
+    id: '1',
+    label: 'None',
+    icon: Calendar
+  }, {
+    id: '2',
+    label: '1-2 people',
+    icon: Calendar
+  }, {
+    id: '3',
+    label: '3+ people',
+    icon: Calendar
+  }];
+  const sources = [{
+    name: 'TikTok',
+    color: '#000000',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a6/Tiktok_icon.svg/2048px-Tiktok_icon.svg.png'
+  }, {
+    name: 'YouTube',
+    color: '#000000',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/7/72/YouTube_social_white_square_%282017%29.svg/1024px-YouTube_social_white_square_%282017%29.svg.png'
+  }, {
+    name: 'Google',
+    color: '#000000',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/c1/Google_%22G%22_logo.svg/2048px-Google_%22G%22_logo.svg.png'
+  }, {
+    name: 'Play Store',
+    color: '#000000',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/2/2f/Google_Play_2022_icon.svg/1856px-Google_Play_2022_icon.svg.png'
+  }, {
+    name: 'Facebook',
+    color: '#000000',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b9/2023_Facebook_icon.svg/2048px-2023_Facebook_icon.svg.png'
+  }, {
+    name: 'LinkedIn',
+    color: '#000000',
+    logo: 'https://upload.wikimedia.org/wikipedia/commons/thumb/8/81/LinkedIn_icon.svg/2048px-LinkedIn_icon.svg.png'
+  }];
   useEffect(() => {
     if (step === 17) {
       const timer = setInterval(() => {
@@ -163,7 +235,6 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
       return () => clearInterval(timer);
     }
   }, [step]);
-
   const handleContinue = () => {
     if (step === 2) {
       setStep(2.5);
@@ -187,7 +258,6 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
       setStep(step + 1);
     }
   };
-
   const handleBack = () => {
     if (step === 1) {
       setShowWelcome(true);
@@ -218,10 +288,8 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
   if (showWelcome) {
     return <Welcome onGetStarted={() => setShowWelcome(false)} />;
   }
-
   if (showPaywall) {
-    return (
-      <div className="min-h-screen bg-white p-6 flex flex-col justify-between">
+    return <div className="min-h-screen bg-white p-6 flex flex-col justify-between">
         <div>
           <h1 className="text-3xl font-bold text-center mb-6">Start your 3-day FREE trial to continue.</h1>
           <div className="flex flex-col items-start mx-auto w-80 relative">
@@ -259,18 +327,12 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
 
       <div className="mt-10 flex flex-col items-center gap-4">
   <div className="flex gap-3">
-    <button
-      onClick={() => setPlan('monthly')}
-      className={`border rounded-xl p-4 w-36 text-center ${plan === 'monthly' ? 'border-black bg-gray-50' : 'border-gray-200'}`}
-    >
+    <button onClick={() => setPlan('monthly')} className={`border rounded-xl p-4 w-36 text-center ${plan === 'monthly' ? 'border-black bg-gray-50' : 'border-gray-200'}`}>
       <p className="font-semibold">Monthly</p>
       <p className="text-gray-600 text-sm">$3.99/mo</p>
     </button>
 
-    <button
-      onClick={() => setPlan('yearly')}
-      className={`border-2 rounded-xl p-4 w-36 text-center relative flex flex-col items-center justify-center ${plan === 'yearly' ? 'border-black' : 'border-gray-200'}`}
-    >
+    <button onClick={() => setPlan('yearly')} className={`border-2 rounded-xl p-4 w-36 text-center relative flex flex-col items-center justify-center ${plan === 'yearly' ? 'border-black' : 'border-gray-200'}`}>
       <span className="bg-black text-white text-xs px-2 py-1 rounded-full absolute left-1/2 -translate-x-1/2 -top-2 whitespace-nowrap">
         3 DAYS FREE
       </span>
@@ -281,149 +343,119 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
 
   {/* Wrap the conditional text and trial button in a single div */}
   <div className="flex flex-col items-center gap-2">
-    {plan === 'yearly' && (
-      <p className="text-gray-500 text-sm mt-2">
+    {plan === 'yearly' && <p className="text-gray-500 text-sm mt-2">
         3 days free, then $28.20 per year ($2.35/mo)
-      </p>
-    )}
+      </p>}
 
-    <button 
-      onClick={onComplete}
-      className="bg-black text-white rounded-full w-80 py-4 mt-4 font-semibold text-lg shadow-md"
-    >
+    <button onClick={onComplete} className="bg-black text-white rounded-full w-80 py-4 mt-4 font-semibold text-lg shadow-md">
       Start My 3-Day Free Trial
     </button>
   </div>
-</div>
+        </div>
  
 
-</div>
+      </div>
 
           
             
-          </div>
-        
-     
-    );
+          </div>;
   }
-
-  return (
-    <div className="min-h-screen bg-white flex flex-col justify-between p-6 relative overflow-y-auto">
+  return <div className="min-h-screen bg-white flex flex-col justify-between p-6 relative overflow-y-auto">
       {complete && <Confetti width={window.innerWidth} height={window.innerHeight} recycle={false} />}
 
       <div>
         <div className="flex items-center gap-4">
-          {step >= 1 && (
-            <button onClick={handleBack} className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
+          {step >= 1 && <button onClick={handleBack} className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center">
               <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
                 <path d="M15 18L9 12L15 6" stroke="#111827" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
               </svg>
-            </button>
-          )}
+            </button>}
 
           <div className="flex-1">
             <div className="h-2 w-full rounded-full bg-gray-200">
-              <div
-                className="h-2 rounded-full bg-black"
-                style={{ width: `${(step / 17) * 100}%` }}
-              />
+              <div className="h-2 rounded-full bg-black" style={{
+              width: `${step / 17 * 100}%`
+            }} />
             </div>
           </div>
         </div>
 
-        {step === 1 && (
-          <section className="mt-8">
+        {step === 1 && <section className="mt-8">
   <h1 className="text-2xl font-semibold text-gray-900">What's your main goal?</h1>
   <p className="text-gray-400 mt-2">
     Choose what you want to focus on.
   </p>
   <div className="mt-8 space-y-4">
     {goals.map(g => {
-      const IconComponent = g.icon;
-      return (
-          <button
-            key={g.id}
-            onClick={() => setGoal(g.label)}
-            className={`w-full text-left rounded-2xl py-4 px-4 shadow-sm transition flex items-center gap-3 ${goal === g.label ? 'bg-black text-white' : 'text-gray-800'}`}
-            style={goal !== g.label ? { backgroundColor: '#f9f8fd' } : {}}
-          >
+            const IconComponent = g.icon;
+            return <button key={g.id} onClick={() => setGoal(g.label)} className={`w-full text-left rounded-2xl py-4 px-4 shadow-sm transition flex items-center gap-3 ${goal === g.label ? 'bg-black text-white' : 'text-gray-800'}`} style={goal !== g.label ? {
+              backgroundColor: '#f9f8fd'
+            } : {}}>
             <div className={`w-8 h-8 rounded-full flex items-center justify-center ${goal === g.label ? 'bg-white' : 'bg-gray-200'}`}>
               <IconComponent className={`w-4 h-4 ${goal === g.label ? 'text-black' : 'text-gray-600'}`} />
             </div>
           <span className="text-base font-medium">{g.label}</span>
-        </button>
-      );
-    })}
+        </button>;
+          })}
   </div>
-</section>
+      </section>}
 
-        )}
-
-        {step === 2 && (
-          <section className="mt-8">
+        {step === 2 && <section className="mt-8">
             <h1 className="text-2xl font-semibold text-gray-900">How much do you earn monthly?</h1>
             <p className="text-gray-400 mt-2">
               Select your income range.
             </p>
             <div className="mt-8 space-y-4">
               {incomeRanges.map(r => {
-                const IconComponent = r.icon;
-                return (
-                  <button
-                    key={r.id}
-                    onClick={() => setIncome(r.label)}
-                    className={`w-full text-left rounded-2xl py-4 px-4 shadow-sm transition flex items-center gap-3 ${income === r.label ? 'bg-black text-white' : 'text-gray-800'}`}
-                    style={income !== r.label ? { backgroundColor: '#f9f8fd' } : {}}
-                  >
+            const IconComponent = r.icon;
+            return <button key={r.id} onClick={() => setIncome(r.label)} className={`w-full text-left rounded-2xl py-4 px-4 shadow-sm transition flex items-center gap-3 ${income === r.label ? 'bg-black text-white' : 'text-gray-800'}`} style={income !== r.label ? {
+              backgroundColor: '#f9f8fd'
+            } : {}}>
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center ${income === r.label ? 'bg-white' : 'bg-gray-200'}`}>
                       <IconComponent className={`w-4 h-4 ${income === r.label ? 'text-black' : 'text-gray-600'}`} />
                     </div>
                     <span className="text-base font-medium">{r.label}</span>
-                  </button>
-                );
-              })}
+                  </button>;
+          })}
             </div>
-          </section>
-        )}
+          </section>}
 
-        {step === 2.5 && (
-          <motion.section 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            className="mt-8 text-center flex flex-col items-center"
-          >
+        {step === 2.5 && <motion.section initial={{
+        opacity: 0
+      }} animate={{
+        opacity: 1
+      }} transition={{
+        duration: 0.5
+      }} className="mt-8 text-center flex flex-col items-center">
             <h1 className="text-2xl font-semibold text-gray-900 mb-4">Income Growth Trends</h1>
             <p className="text-gray-400 mb-8">Track how your savings grow over time</p>
             
             <div className="relative w-full max-w-sm h-64 flex items-end justify-around gap-2 px-8">
-              {[40, 65, 85, 95].map((height, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: `${height}%`, opacity: 1 }}
-                  transition={{ 
-                    duration: 0.8, 
-                    delay: index * 0.15,
-                    ease: "easeOut"
-                  }}
-                  className="flex-1 bg-black rounded-t-xl relative"
-                  style={{ maxWidth: '60px' }}
-                >
-                  <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ 
-                      duration: 0.4, 
-                      delay: index * 0.15 + 0.5,
-                      ease: "backOut"
-                    }}
-                    className="absolute -top-8 left-1/2 -translate-x-1/2 bg-stone-100 px-2 py-1 rounded-md text-xs font-semibold whitespace-nowrap"
-                  >
+              {[40, 65, 85, 95].map((height, index) => <motion.div key={index} initial={{
+            height: 0,
+            opacity: 0
+          }} animate={{
+            height: `${height}%`,
+            opacity: 1
+          }} transition={{
+            duration: 0.8,
+            delay: index * 0.15,
+            ease: "easeOut"
+          }} className="flex-1 bg-black rounded-t-xl relative" style={{
+            maxWidth: '60px'
+          }}>
+                  <motion.div initial={{
+              scale: 0
+            }} animate={{
+              scale: 1
+            }} transition={{
+              duration: 0.4,
+              delay: index * 0.15 + 0.5,
+              ease: "backOut"
+            }} className="absolute -top-8 left-1/2 -translate-x-1/2 bg-stone-100 px-2 py-1 rounded-md text-xs font-semibold whitespace-nowrap">
                     ${(index + 1) * 250}
                   </motion.div>
-                </motion.div>
-              ))}
+                </motion.div>)}
             </div>
             
             <div className="flex justify-around w-full max-w-sm px-8 mt-4">
@@ -432,74 +464,59 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
               <span className="text-xs text-gray-500">Mar</span>
               <span className="text-xs text-gray-500">Apr</span>
             </div>
-          </motion.section>
-        )}
+          </motion.section>}
 
-        {step === 3 && (
-          <section className="mt-8">
+        {step === 3 && <section className="mt-8">
             <h1 className="text-2xl font-semibold text-gray-900">How much can you save each month?</h1>
             <p className="text-gray-400 mt-2">
               Pick an amount you can set aside.
             </p>
             <div className="mt-8 space-y-4">
               {saveAmounts.map(a => {
-                const IconComponent = a.icon;
-                return (
-                  <button
-                    key={a.id}
-                    onClick={() => setSaveAmount(a.label)}
-                    className={`w-full text-left rounded-2xl py-4 px-4 shadow-sm transition flex items-center gap-3 ${saveAmount === a.label ? 'bg-black text-white' : 'text-gray-800'}`}
-                    style={saveAmount !== a.label ? { backgroundColor: '#f9f8fd' } : {}}
-                  >
+            const IconComponent = a.icon;
+            return <button key={a.id} onClick={() => setSaveAmount(a.label)} className={`w-full text-left rounded-2xl py-4 px-4 shadow-sm transition flex items-center gap-3 ${saveAmount === a.label ? 'bg-black text-white' : 'text-gray-800'}`} style={saveAmount !== a.label ? {
+              backgroundColor: '#f9f8fd'
+            } : {}}>
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center ${saveAmount === a.label ? 'bg-white' : 'bg-gray-200'}`}>
                       <IconComponent className={`w-4 h-4 ${saveAmount === a.label ? 'text-black' : 'text-gray-600'}`} />
                     </div>
                     <span className="text-base font-medium">{a.label}</span>
-                  </button>
-                );
-              })}
+                  </button>;
+          })}
             </div>
-          </section>
-        )}
+          </section>}
 
-        {step === 4 && (
-          <section className="mt-8">
+        {step === 4 && <section className="mt-8">
             <h1 className="text-2xl font-semibold text-gray-900">When do you want to reach your goal?</h1>
             <p className="text-gray-400 mt-2">
               Choose your timeline.
             </p>
             <div className="mt-8 space-y-4">
               {timelines.map(t => {
-                const IconComponent = t.icon;
-                return (
-                  <button
-                    key={t.id}
-                    onClick={() => setTimeline(t.label)}
-                    className={`w-full text-left rounded-2xl py-4 px-4 shadow-sm transition flex items-center gap-3 ${timeline === t.label ? 'bg-black text-white' : 'text-gray-800'}`}
-                    style={timeline !== t.label ? { backgroundColor: '#f9f8fd' } : {}}
-                  >
+            const IconComponent = t.icon;
+            return <button key={t.id} onClick={() => setTimeline(t.label)} className={`w-full text-left rounded-2xl py-4 px-4 shadow-sm transition flex items-center gap-3 ${timeline === t.label ? 'bg-black text-white' : 'text-gray-800'}`} style={timeline !== t.label ? {
+              backgroundColor: '#f9f8fd'
+            } : {}}>
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center ${timeline === t.label ? 'bg-white' : 'bg-gray-200'}`}>
                       <IconComponent className={`w-4 h-4 ${timeline === t.label ? 'text-black' : 'text-gray-600'}`} />
                     </div>
                     <span className="text-base font-medium">{t.label}</span>
-                  </button>
-                );
-              })}
+                  </button>;
+          })}
             </div>
-          </section>
-        )}
+          </section>}
 
-        {step === 4.5 && (
-          <motion.section 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            className="mt-8 text-center flex flex-col items-center"
-          >
+        {step === 4.5 && <motion.section initial={{
+        opacity: 0
+      }} animate={{
+        opacity: 1
+      }} transition={{
+        duration: 0.5
+      }} className="mt-8 text-center flex flex-col items-center">
             <h1 className="text-2xl font-semibold text-gray-900 mb-2">You have great potential</h1>
             <h1 className="text-2xl font-semibold text-gray-900 mb-4">to crush your goal</h1>
             
-            <div className="bg-stone-50 rounded-3xl p-8 w-full max-w-md mt-4">
+            <div className="rounded-3xl p-8 w-full max-w-md mt-4 bg-slate-200">
               <p className="text-base font-semibold text-gray-900 mb-6 text-left">Your savings transition</p>
               
               <svg viewBox="0 0 400 280" className="w-full h-64">
@@ -511,71 +528,68 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
                 <line x1="40" y1="120" x2="380" y2="120" stroke="#d1d5db" strokeWidth="1" strokeDasharray="4 4" />
                 
                 {/* Shaded area under curve */}
-                <motion.path
-                  d="M 80 180 Q 160 170 220 110 T 360 60 L 360 200 L 80 200 Z"
-                  fill="#d7ccc8"
-                  opacity="0.3"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 0.3 }}
-                  transition={{ duration: 1, delay: 0.3 }}
-                />
+                <motion.path d="M 80 180 Q 160 170 220 110 T 360 60 L 360 200 L 80 200 Z" fill="#d7ccc8" opacity="0.3" initial={{
+              opacity: 0
+            }} animate={{
+              opacity: 0.3
+            }} transition={{
+              duration: 1,
+              delay: 0.3
+            }} />
                 
                 {/* Main curve line */}
-                <motion.path
-                  d="M 80 180 Q 160 170 220 110 T 360 60"
-                  stroke="#a1887f"
-                  strokeWidth="3"
-                  fill="none"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: 1.5, ease: "easeOut" }}
-                />
+                <motion.path d="M 80 180 Q 160 170 220 110 T 360 60" stroke="#a1887f" strokeWidth="3" fill="none" initial={{
+              pathLength: 0
+            }} animate={{
+              pathLength: 1
+            }} transition={{
+              duration: 1.5,
+              ease: "easeOut"
+            }} />
                 
                 {/* Data points */}
-                {[
-                  { x: 80, y: 180, delay: 0.5 },
-                  { x: 220, y: 110, delay: 0.9 },
-                  { x: 360, y: 60, delay: 1.3, isTrophy: true }
-                ].map((point, index) => (
-                  <motion.g key={index}>
-                    {point.isTrophy ? (
-                      <>
-                        <motion.circle
-                          cx={point.x}
-                          cy={point.y}
-                          r="20"
-                          fill="#a1887f"
-                          initial={{ scale: 0 }}
-                          animate={{ scale: 1 }}
-                          transition={{ duration: 0.4, delay: point.delay, type: "spring" }}
-                        />
-                        <motion.text
-                          x={point.x}
-                          y={point.y + 5}
-                          textAnchor="middle"
-                          fontSize="18"
-                          initial={{ opacity: 0 }}
-                          animate={{ opacity: 1 }}
-                          transition={{ delay: point.delay + 0.2 }}
-                        >
+                {[{
+              x: 80,
+              y: 180,
+              delay: 0.5
+            }, {
+              x: 220,
+              y: 110,
+              delay: 0.9
+            }, {
+              x: 360,
+              y: 60,
+              delay: 1.3,
+              isTrophy: true
+            }].map((point, index) => <motion.g key={index}>
+                    {point.isTrophy ? <>
+                        <motion.circle cx={point.x} cy={point.y} r="20" fill="#a1887f" initial={{
+                  scale: 0
+                }} animate={{
+                  scale: 1
+                }} transition={{
+                  duration: 0.4,
+                  delay: point.delay,
+                  type: "spring"
+                }} />
+                        <motion.text x={point.x} y={point.y + 5} textAnchor="middle" fontSize="18" initial={{
+                  opacity: 0
+                }} animate={{
+                  opacity: 1
+                }} transition={{
+                  delay: point.delay + 0.2
+                }}>
                           🏆
                         </motion.text>
-                      </>
-                    ) : (
-                      <motion.circle
-                        cx={point.x}
-                        cy={point.y}
-                        r="6"
-                        fill="#000000"
-                        stroke="#ffffff"
-                        strokeWidth="3"
-                        initial={{ scale: 0 }}
-                        animate={{ scale: 1 }}
-                        transition={{ duration: 0.3, delay: point.delay }}
-                      />
-                    )}
-                  </motion.g>
-                ))}
+                      </> : <motion.circle cx={point.x} cy={point.y} r="6" fill="#000000" stroke="#ffffff" strokeWidth="3" initial={{
+                scale: 0
+              }} animate={{
+                scale: 1
+              }} transition={{
+                duration: 0.3,
+                delay: point.delay
+              }} />}
+                  </motion.g>)}
                 
                 {/* X-axis labels */}
                 <text x="80" y="230" textAnchor="middle" fontSize="14" fill="#6b7280">3 Days</text>
@@ -583,72 +597,73 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
                 <text x="360" y="230" textAnchor="middle" fontSize="14" fill="#6b7280">30 Days</text>
               </svg>
               
-              <motion.p 
-                className="text-sm text-gray-600 mt-6 leading-relaxed"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.5 }}
-              >
+              <motion.p className="text-sm text-gray-600 mt-6 leading-relaxed" initial={{
+            opacity: 0,
+            y: 10
+          }} animate={{
+            opacity: 1,
+            y: 0
+          }} transition={{
+            delay: 1.5
+          }}>
                 Based on historical data, savings growth is usually delayed at first, but after 7 days, you can save like crazy!
               </motion.p>
             </div>
-          </motion.section>
-        )}
+          </motion.section>}
 
-        {step === 5 && (
-          <motion.section 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="mt-8 text-center flex flex-col items-center relative"
-          >
+        {step === 5 && <motion.section initial={{
+        opacity: 0,
+        y: 20
+      }} animate={{
+        opacity: 1,
+        y: 0
+      }} transition={{
+        duration: 0.6,
+        ease: "easeOut"
+      }} className="mt-8 text-center flex flex-col items-center relative">
             <h1 className="text-2xl font-semibold text-gray-900 mb-6">Track Your Progress</h1>
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="relative"
-            >
+            <motion.div initial={{
+          scale: 0.8,
+          opacity: 0
+        }} animate={{
+          scale: 1,
+          opacity: 1
+        }} transition={{
+          duration: 0.5,
+          delay: 0.2
+        }} className="relative">
               <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-transparent rounded-3xl blur-2xl opacity-50"></div>
               <img src={infoHome} alt="Progress tracking" loading="eager" decoding="async" fetchPriority="high" className="w-[430px] h-[430px] object-contain mb-6 relative z-10" />
             </motion.div>
-          </motion.section>
-        )}
+          </motion.section>}
 
-        {step === 6 && (
-          <section className="mt-8">
+        {step === 6 && <section className="mt-8">
             <h1 className="text-2xl font-semibold text-gray-900">Do you have any debt?</h1>
             <p className="text-gray-400 mt-2">
               Let us know your debt amount.
             </p>
             <div className="mt-8 space-y-4">
               {debtAmounts.map(d => {
-                const IconComponent = d.icon;
-                return (
-                  <button
-                    key={d.id}
-                    onClick={() => setDebtAmount(d.label)}
-                    className={`w-full text-left rounded-2xl py-4 px-4 shadow-sm transition flex items-center gap-3 ${debtAmount === d.label ? 'bg-black text-white' : 'text-gray-800'}`}
-                    style={debtAmount !== d.label ? { backgroundColor: '#f9f8fd' } : {}}
-                  >
+            const IconComponent = d.icon;
+            return <button key={d.id} onClick={() => setDebtAmount(d.label)} className={`w-full text-left rounded-2xl py-4 px-4 shadow-sm transition flex items-center gap-3 ${debtAmount === d.label ? 'bg-black text-white' : 'text-gray-800'}`} style={debtAmount !== d.label ? {
+              backgroundColor: '#f9f8fd'
+            } : {}}>
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center ${debtAmount === d.label ? 'bg-white' : 'bg-gray-200'}`}>
                       <IconComponent className={`w-4 h-4 ${debtAmount === d.label ? 'text-black' : 'text-gray-600'}`} />
                     </div>
                     <span className="text-base font-medium">{d.label}</span>
-                  </button>
-                );
-              })}
+                  </button>;
+          })}
             </div>
-          </section>
-        )}
+          </section>}
 
-        {step === 6.5 && (
-          <motion.section 
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.5 }}
-            className="mt-8 text-center flex flex-col items-center"
-          >
+        {step === 6.5 && <motion.section initial={{
+        opacity: 0
+      }} animate={{
+        opacity: 1
+      }} transition={{
+        duration: 0.5
+      }} className="mt-8 text-center flex flex-col items-center">
             <h1 className="text-2xl font-semibold text-gray-900 mb-2">Jarify creates</h1>
             <h1 className="text-2xl font-semibold text-gray-900 mb-4">long-term results</h1>
             
@@ -665,67 +680,66 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
                 <line x1="40" y1="150" x2="380" y2="150" stroke="#d1d5db" strokeWidth="1" strokeDasharray="4 4" />
                 
                 {/* Traditional approach curve (going up - yo-yo effect) */}
-                <motion.path
-                  d="M 80 100 Q 140 140 200 120 Q 260 100 320 70 Q 350 50 380 60"
-                  stroke="#ef4444"
-                  strokeWidth="3"
-                  fill="none"
-                  strokeDasharray="5 5"
-                  initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{ pathLength: 1, opacity: 1 }}
-                  transition={{ duration: 1.5, delay: 0.3, ease: "easeOut" }}
-                />
+                <motion.path d="M 80 100 Q 140 140 200 120 Q 260 100 320 70 Q 350 50 380 60" stroke="#ef4444" strokeWidth="3" fill="none" strokeDasharray="5 5" initial={{
+              pathLength: 0,
+              opacity: 0
+            }} animate={{
+              pathLength: 1,
+              opacity: 1
+            }} transition={{
+              duration: 1.5,
+              delay: 0.3,
+              ease: "easeOut"
+            }} />
                 
                 {/* Jarify curve (steady decline to goal) */}
-                <motion.path
-                  d="M 80 100 Q 150 120 220 140 Q 290 155 380 170"
-                  stroke="#000000"
-                  strokeWidth="3"
-                  fill="none"
-                  initial={{ pathLength: 0 }}
-                  animate={{ pathLength: 1 }}
-                  transition={{ duration: 1.5, delay: 0.6, ease: "easeOut" }}
-                />
+                <motion.path d="M 80 100 Q 150 120 220 140 Q 290 155 380 170" stroke="#000000" strokeWidth="3" fill="none" initial={{
+              pathLength: 0
+            }} animate={{
+              pathLength: 1
+            }} transition={{
+              duration: 1.5,
+              delay: 0.6,
+              ease: "easeOut"
+            }} />
                 
                 {/* Data points for Jarify */}
-                {[
-                  { x: 80, y: 100, delay: 1.0 },
-                  { x: 380, y: 170, delay: 2.0 }
-                ].map((point, index) => (
-                  <motion.circle
-                    key={index}
-                    cx={point.x}
-                    cy={point.y}
-                    r="6"
-                    fill="#000000"
-                    stroke="#ffffff"
-                    strokeWidth="3"
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ duration: 0.3, delay: point.delay }}
-                  />
-                ))}
+                {[{
+              x: 80,
+              y: 100,
+              delay: 1.0
+            }, {
+              x: 380,
+              y: 170,
+              delay: 2.0
+            }].map((point, index) => <motion.circle key={index} cx={point.x} cy={point.y} r="6" fill="#000000" stroke="#ffffff" strokeWidth="3" initial={{
+              scale: 0
+            }} animate={{
+              scale: 1
+            }} transition={{
+              duration: 0.3,
+              delay: point.delay
+            }} />)}
                 
                 {/* Labels */}
-                <motion.g
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 1.2 }}
-                >
+                <motion.g initial={{
+              opacity: 0
+            }} animate={{
+              opacity: 1
+            }} transition={{
+              delay: 1.2
+            }}>
                   <rect x="100" y="55" width="80" height="24" rx="12" fill="#000000" />
                   <text x="140" y="72" textAnchor="middle" fontSize="12" fill="#ffffff" fontWeight="600">Jarify</text>
                 </motion.g>
                 
-                <motion.text
-                  x="380"
-                  y="55"
-                  textAnchor="end"
-                  fontSize="13"
-                  fill="#6b7280"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ delay: 1.5 }}
-                >
+                <motion.text x="380" y="55" textAnchor="end" fontSize="13" fill="#6b7280" initial={{
+              opacity: 0
+            }} animate={{
+              opacity: 1
+            }} transition={{
+              delay: 1.5
+            }}>
                   Traditional
                 </motion.text>
                 
@@ -734,45 +748,56 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
                 <text x="380" y="230" textAnchor="middle" fontSize="14" fill="#6b7280">Month 6</text>
               </svg>
               
-              <motion.p 
-                className="text-sm text-gray-600 mt-6 leading-relaxed"
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 2.0 }}
-              >
+              <motion.p className="text-sm text-gray-600 mt-6 leading-relaxed" initial={{
+            opacity: 0,
+            y: 10
+          }} animate={{
+            opacity: 1,
+            y: 0
+          }} transition={{
+            delay: 2.0
+          }}>
                 80% of Jarify users maintain their savings goals even 6 months later
               </motion.p>
             </div>
-          </motion.section>
-        )}
+          </motion.section>}
 
-        {step === 7 && (
-          <motion.section 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="mt-8 text-center flex flex-col items-center relative"
-          >
+        {step === 7 && <motion.section initial={{
+        opacity: 0,
+        y: 20
+      }} animate={{
+        opacity: 1,
+        y: 0
+      }} transition={{
+        duration: 0.6,
+        ease: "easeOut"
+      }} className="mt-8 text-center flex flex-col items-center relative">
             <h1 className="text-2xl font-semibold text-gray-900 mb-6">Save Smart with Jar Goals</h1>
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="relative"
-            >
+            <motion.div initial={{
+          scale: 0.8,
+          opacity: 0
+        }} animate={{
+          scale: 1,
+          opacity: 1
+        }} transition={{
+          duration: 0.5,
+          delay: 0.2
+        }} className="relative">
               <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-transparent rounded-3xl blur-2xl opacity-50"></div>
               <img src={infoJar} alt="Jar savings" loading="eager" decoding="async" fetchPriority="high" className="w-[430px] h-[430px] object-contain mb-6 relative z-10" />
             </motion.div>
-          </motion.section>
-        )}
+          </motion.section>}
 
-        {step === 9 && (
-          <motion.section 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="mt-8 text-center flex flex-col items-center relative"
-          >
+        {step === 9 && <motion.section initial={{
+        opacity: 0,
+        y: 20
+      }} animate={{
+        opacity: 1,
+        y: 0
+      }} transition={{
+        duration: 0.6,
+        ease: "easeOut"
+      }} className="mt-8 text-center flex flex-col items-center relative">
             <div className="relative w-80 h-80 mx-auto mb-8 flex items-center justify-center">
               {/* Gradient circular background */}
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100 opacity-60"></div>
@@ -783,242 +808,137 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
                 <svg viewBox="0 0 240 240" className="w-48 h-48">
                   {/* Decorative dots around the hands */}
                   {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((angle, i) => {
-                    const rad = (angle * Math.PI) / 180;
-                    const x = 120 + 85 * Math.cos(rad);
-                    const y = 120 + 85 * Math.sin(rad);
-                    return (
-                      <motion.circle
-                        key={i}
-                        cx={x}
-                        cy={y}
-                        r="3"
-                        fill="#000"
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        transition={{ delay: i * 0.08, duration: 0.3 }}
-                      />
-                    );
-                  })}
+                const rad = angle * Math.PI / 180;
+                const x = 120 + 85 * Math.cos(rad);
+                const y = 120 + 85 * Math.sin(rad);
+                return <motion.circle key={i} cx={x} cy={y} r="3" fill="#000" initial={{
+                  opacity: 0,
+                  scale: 0
+                }} animate={{
+                  opacity: 1,
+                  scale: 1
+                }} transition={{
+                  delay: i * 0.08,
+                  duration: 0.3
+                }} />;
+              })}
                   
                   {/* Left hand with horizontal striped sleeve */}
-                  <motion.g
-                    initial={{ opacity: 0, x: -30, rotate: -10 }}
-                    animate={{ 
-                      opacity: 1, 
-                      x: 0, 
-                      rotate: 0,
-                    }}
-                    transition={{ 
-                      duration: 0.6, 
-                      delay: 0.4,
-                      repeat: Infinity,
-                      repeatType: "reverse",
-                      repeatDelay: 1
-                    }}
-                  >
+                  <motion.g initial={{
+                opacity: 0,
+                x: -30,
+                rotate: -10
+              }} animate={{
+                opacity: 1,
+                x: 0,
+                rotate: 0
+              }} transition={{
+                duration: 0.6,
+                delay: 0.4,
+                repeat: Infinity,
+                repeatType: "reverse",
+                repeatDelay: 1
+              }}>
                     {/* Horizontal striped sleeve */}
-                    <path
-                      d="M 75 155 L 70 175 Q 68 182 73 185 L 88 185 Q 92 183 91 178 L 87 157"
-                      fill="#fff"
-                      stroke="#000"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
+                    <path d="M 75 155 L 70 175 Q 68 182 73 185 L 88 185 Q 92 183 91 178 L 87 157" fill="#fff" stroke="#000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                     {/* Horizontal lines on sleeve */}
-                    <line x1="72" y1="178" x2="88" y2="178" stroke="#000" strokeWidth="2"/>
-                    <line x1="73" y1="182" x2="87" y2="182" stroke="#000" strokeWidth="2"/>
-                    <line x1="74" y1="170" x2="88" y2="170" stroke="#000" strokeWidth="2"/>
-                    <line x1="75" y1="166" x2="88" y2="166" stroke="#000" strokeWidth="2"/>
-                    <line x1="76" y1="162" x2="88" y2="162" stroke="#000" strokeWidth="2"/>
+                    <line x1="72" y1="178" x2="88" y2="178" stroke="#000" strokeWidth="2" />
+                    <line x1="73" y1="182" x2="87" y2="182" stroke="#000" strokeWidth="2" />
+                    <line x1="74" y1="170" x2="88" y2="170" stroke="#000" strokeWidth="2" />
+                    <line x1="75" y1="166" x2="88" y2="166" stroke="#000" strokeWidth="2" />
+                    <line x1="76" y1="162" x2="88" y2="162" stroke="#000" strokeWidth="2" />
                     
                     {/* Palm */}
-                    <path
-                      d="M 87 157 Q 82 145 84 133 Q 86 125 90 120 L 92 110"
-                      fill="none"
-                      stroke="#000"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
+                    <path d="M 87 157 Q 82 145 84 133 Q 86 125 90 120 L 92 110" fill="none" stroke="#000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                     {/* Thumb */}
-                    <path
-                      d="M 92 110 Q 95 105 99 108 L 102 125 Q 103 135 100 140"
-                      fill="none"
-                      stroke="#000"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
+                    <path d="M 92 110 Q 95 105 99 108 L 102 125 Q 103 135 100 140" fill="none" stroke="#000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                     {/* Index finger */}
-                    <path
-                      d="M 90 120 Q 92 115 95 115 Q 98 115 99 120 L 102 140 Q 103 148 100 150"
-                      fill="none"
-                      stroke="#000"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
+                    <path d="M 90 120 Q 92 115 95 115 Q 98 115 99 120 L 102 140 Q 103 148 100 150" fill="none" stroke="#000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                     {/* Middle finger */}
-                    <path
-                      d="M 88 120 Q 90 112 93 110 Q 96 109 98 113 L 102 138 Q 103 148 100 152"
-                      fill="none"
-                      stroke="#000"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
+                    <path d="M 88 120 Q 90 112 93 110 Q 96 109 98 113 L 102 138 Q 103 148 100 152" fill="none" stroke="#000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                     {/* Ring finger */}
-                    <path
-                      d="M 86 122 Q 88 115 91 115 Q 94 115 95 120 L 98 143 Q 99 150 96 152"
-                      fill="none"
-                      stroke="#000"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
+                    <path d="M 86 122 Q 88 115 91 115 Q 94 115 95 120 L 98 143 Q 99 150 96 152" fill="none" stroke="#000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                     {/* Pinky */}
-                    <path
-                      d="M 84 128 Q 85 122 88 122 Q 91 122 92 127 L 94 145 Q 95 150 92 152"
-                      fill="none"
-                      stroke="#000"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
+                    <path d="M 84 128 Q 85 122 88 122 Q 91 122 92 127 L 94 145 Q 95 150 92 152" fill="none" stroke="#000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                     {/* Palm connection */}
-                    <path
-                      d="M 87 157 Q 90 152 92 152 Q 96 152 100 150 Q 100 145 100 140"
-                      fill="none"
-                      stroke="#000"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
+                    <path d="M 87 157 Q 90 152 92 152 Q 96 152 100 150 Q 100 145 100 140" fill="none" stroke="#000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                   </motion.g>
                   
                   {/* Right hand with diagonal striped sleeve */}
-                  <motion.g
-                    initial={{ opacity: 0, x: 30, rotate: 10 }}
-                    animate={{ 
-                      opacity: 1, 
-                      x: 0, 
-                      rotate: 0,
-                    }}
-                    transition={{ 
-                      duration: 0.6, 
-                      delay: 0.4,
-                      repeat: Infinity,
-                      repeatType: "reverse",
-                      repeatDelay: 1
-                    }}
-                  >
+                  <motion.g initial={{
+                opacity: 0,
+                x: 30,
+                rotate: 10
+              }} animate={{
+                opacity: 1,
+                x: 0,
+                rotate: 0
+              }} transition={{
+                duration: 0.6,
+                delay: 0.4,
+                repeat: Infinity,
+                repeatType: "reverse",
+                repeatDelay: 1
+              }}>
                     {/* Diagonal striped sleeve */}
-                    <path
-                      d="M 165 155 L 170 175 Q 172 182 167 185 L 152 185 Q 148 183 149 178 L 153 157"
-                      fill="#000"
-                      stroke="#000"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
+                    <path d="M 165 155 L 170 175 Q 172 182 167 185 L 152 185 Q 148 183 149 178 L 153 157" fill="#000" stroke="#000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                     {/* Diagonal lines on sleeve */}
-                    <line x1="152" y1="161" x2="158" y2="178" stroke="#fff" strokeWidth="2"/>
-                    <line x1="156" y1="160" x2="162" y2="180" stroke="#fff" strokeWidth="2"/>
-                    <line x1="160" y1="161" x2="166" y2="182" stroke="#fff" strokeWidth="2"/>
-                    <line x1="164" y1="163" x2="168" y2="176" stroke="#fff" strokeWidth="2"/>
+                    <line x1="152" y1="161" x2="158" y2="178" stroke="#fff" strokeWidth="2" />
+                    <line x1="156" y1="160" x2="162" y2="180" stroke="#fff" strokeWidth="2" />
+                    <line x1="160" y1="161" x2="166" y2="182" stroke="#fff" strokeWidth="2" />
+                    <line x1="164" y1="163" x2="168" y2="176" stroke="#fff" strokeWidth="2" />
                     
                     {/* Palm */}
-                    <path
-                      d="M 153 157 Q 158 145 156 133 Q 154 125 150 120 L 148 110"
-                      fill="none"
-                      stroke="#000"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
+                    <path d="M 153 157 Q 158 145 156 133 Q 154 125 150 120 L 148 110" fill="none" stroke="#000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                     {/* Thumb */}
-                    <path
-                      d="M 148 110 Q 145 105 141 108 L 138 125 Q 137 135 140 140"
-                      fill="none"
-                      stroke="#000"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
+                    <path d="M 148 110 Q 145 105 141 108 L 138 125 Q 137 135 140 140" fill="none" stroke="#000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                     {/* Index finger */}
-                    <path
-                      d="M 150 120 Q 148 115 145 115 Q 142 115 141 120 L 138 140 Q 137 148 140 150"
-                      fill="none"
-                      stroke="#000"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
+                    <path d="M 150 120 Q 148 115 145 115 Q 142 115 141 120 L 138 140 Q 137 148 140 150" fill="none" stroke="#000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                     {/* Middle finger */}
-                    <path
-                      d="M 152 120 Q 150 112 147 110 Q 144 109 142 113 L 138 138 Q 137 148 140 152"
-                      fill="none"
-                      stroke="#000"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
+                    <path d="M 152 120 Q 150 112 147 110 Q 144 109 142 113 L 138 138 Q 137 148 140 152" fill="none" stroke="#000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                     {/* Ring finger */}
-                    <path
-                      d="M 154 122 Q 152 115 149 115 Q 146 115 145 120 L 142 143 Q 141 150 144 152"
-                      fill="none"
-                      stroke="#000"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
+                    <path d="M 154 122 Q 152 115 149 115 Q 146 115 145 120 L 142 143 Q 141 150 144 152" fill="none" stroke="#000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                     {/* Pinky */}
-                    <path
-                      d="M 156 128 Q 155 122 152 122 Q 149 122 148 127 L 146 145 Q 145 150 148 152"
-                      fill="none"
-                      stroke="#000"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
+                    <path d="M 156 128 Q 155 122 152 122 Q 149 122 148 127 L 146 145 Q 145 150 148 152" fill="none" stroke="#000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                     {/* Palm connection */}
-                    <path
-                      d="M 153 157 Q 150 152 148 152 Q 144 152 140 150 Q 140 145 140 140"
-                      fill="none"
-                      stroke="#000"
-                      strokeWidth="2.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
+                    <path d="M 153 157 Q 150 152 148 152 Q 144 152 140 150 Q 140 145 140 140" fill="none" stroke="#000" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" />
                   </motion.g>
                 </svg>
               </div>
             </div>
 
-            <motion.h1 
-              className="text-3xl font-bold text-gray-900 mb-2"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-            >
+            <motion.h1 className="text-3xl font-bold text-gray-900 mb-2" initial={{
+          opacity: 0,
+          y: 10
+        }} animate={{
+          opacity: 1,
+          y: 0
+        }} transition={{
+          delay: 0.5
+        }}>
               Thank you for
             </motion.h1>
-            <motion.h1 
-              className="text-3xl font-bold text-gray-900 mb-12"
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-            >
+            <motion.h1 className="text-3xl font-bold text-gray-900 mb-12" initial={{
+          opacity: 0,
+          y: 10
+        }} animate={{
+          opacity: 1,
+          y: 0
+        }} transition={{
+          delay: 0.6
+        }}>
               trusting us!
             </motion.h1>
 
-            <motion.div
-              className="max-w-md mx-auto"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8 }}
-            >
+            <motion.div className="max-w-md mx-auto" initial={{
+          opacity: 0,
+          y: 20
+        }} animate={{
+          opacity: 1,
+          y: 0
+        }} transition={{
+          delay: 0.8
+        }}>
               <h2 className="text-lg font-semibold text-gray-900 mb-3">
                 Your privacy and security matter to us.
               </h2>
@@ -1026,271 +946,230 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
                 We promise to always keep your personal information private and secure.
               </p>
             </motion.div>
-          </motion.section>
-        )}
+          </motion.section>}
 
-        {step === 9.5 && (
-          <section className="mt-8">
+        {step === 9.5 && <section className="mt-8">
             <h1 className="text-2xl font-semibold text-gray-900">Have you tried any other</h1>
             <h1 className="text-2xl font-semibold text-gray-900 mb-2">Saving App?</h1>
             <p className="text-gray-400 mt-2">
               Let us know your experience.
             </p>
             <div className="mt-24 space-y-4">
-              <button
-                onClick={() => setTriedOtherApp('yes')}
-                className={`w-full rounded-3xl py-5 px-6 shadow-sm transition-all flex items-center gap-4 ${
-                  triedOtherApp === 'yes' 
-                    ? 'bg-[#1f2937] text-white' 
-                    : 'bg-[#1f2937] text-white'
-                }`}
-              >
+              <button onClick={() => setTriedOtherApp('yes')} className={`w-full rounded-3xl py-5 px-6 shadow-sm transition-all flex items-center gap-4 ${triedOtherApp === 'yes' ? 'bg-[#1f2937] text-white' : 'bg-[#1f2937] text-white'}`}>
                 <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center flex-shrink-0">
-                  <ThumbsUp 
-                    className="w-7 h-7 text-[#1f2937]"
-                    strokeWidth={2}
-                    fill="#1f2937"
-                  />
+                  <ThumbsUp className="w-7 h-7 text-[#1f2937]" strokeWidth={2} fill="#1f2937" />
                 </div>
                 <span className="text-xl font-medium">Yes</span>
               </button>
 
-              <button
-                onClick={() => setTriedOtherApp('no')}
-                className={`w-full rounded-3xl py-5 px-6 shadow-sm transition-all flex items-center gap-4 ${
-                  triedOtherApp === 'no' 
-                    ? 'bg-[#1f2937] text-white' 
-                    : 'bg-[#f3f4f6] text-gray-900'
-                }`}
-              >
-                <div className={`w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0 ${
-                  triedOtherApp === 'no' ? 'bg-white' : 'bg-white'
-                }`}>
-                  <ThumbsDown 
-                    className={`w-7 h-7 ${triedOtherApp === 'no' ? 'text-[#1f2937]' : 'text-[#1f2937]'}`}
-                    strokeWidth={2}
-                    fill={triedOtherApp === 'no' ? '#1f2937' : '#1f2937'}
-                  />
+              <button onClick={() => setTriedOtherApp('no')} className={`w-full rounded-3xl py-5 px-6 shadow-sm transition-all flex items-center gap-4 ${triedOtherApp === 'no' ? 'bg-[#1f2937] text-white' : 'bg-[#f3f4f6] text-gray-900'}`}>
+                <div className={`w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0 ${triedOtherApp === 'no' ? 'bg-white' : 'bg-white'}`}>
+                  <ThumbsDown className={`w-7 h-7 ${triedOtherApp === 'no' ? 'text-[#1f2937]' : 'text-[#1f2937]'}`} strokeWidth={2} fill={triedOtherApp === 'no' ? '#1f2937' : '#1f2937'} />
                 </div>
                 <span className="text-xl font-medium">No</span>
               </button>
             </div>
-          </section>
-        )}
+          </section>}
 
-        {step === 10 && (
-          <motion.section 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="mt-8 text-center flex flex-col items-center relative"
-          >
+        {step === 10 && <motion.section initial={{
+        opacity: 0,
+        y: 20
+      }} animate={{
+        opacity: 1,
+        y: 0
+      }} transition={{
+        duration: 0.6,
+        ease: "easeOut"
+      }} className="mt-8 text-center flex flex-col items-center relative">
             <h1 className="text-2xl font-semibold text-gray-900 mb-6">Organize with Smart Folders</h1>
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="relative"
-            >
+            <motion.div initial={{
+          scale: 0.8,
+          opacity: 0
+        }} animate={{
+          scale: 1,
+          opacity: 1
+        }} transition={{
+          duration: 0.5,
+          delay: 0.2
+        }} className="relative">
               <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-transparent rounded-3xl blur-2xl opacity-50"></div>
               <img src={infoFolders} alt="Smart folders" loading="eager" decoding="async" fetchPriority="high" className="w-[430px] h-[430px] object-contain mb-6 relative z-10" />
             </motion.div>
-          </motion.section>
-        )}
+          </motion.section>}
 
-        {step === 11 && (
-          <section className="mt-8">
+        {step === 11 && <section className="mt-8">
             <h1 className="text-2xl font-semibold text-gray-900">How much have you saved?</h1>
             <p className="text-gray-400 mt-2">
               Select your current savings amount.
             </p>
             <div className="mt-8 space-y-4">
               {currentSavingsOptions.map(s => {
-                const IconComponent = s.icon;
-                return (
-                  <button
-                    key={s.id}
-                    onClick={() => setCurrentSavings(s.label)}
-                    className={`w-full text-left rounded-2xl py-4 px-4 shadow-sm transition flex items-center gap-3 ${currentSavings === s.label ? 'bg-black text-white' : 'text-gray-800'}`}
-                    style={currentSavings !== s.label ? { backgroundColor: '#f9f8fd' } : {}}
-                  >
+            const IconComponent = s.icon;
+            return <button key={s.id} onClick={() => setCurrentSavings(s.label)} className={`w-full text-left rounded-2xl py-4 px-4 shadow-sm transition flex items-center gap-3 ${currentSavings === s.label ? 'bg-black text-white' : 'text-gray-800'}`} style={currentSavings !== s.label ? {
+              backgroundColor: '#f9f8fd'
+            } : {}}>
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center ${currentSavings === s.label ? 'bg-white' : 'bg-gray-200'}`}>
                       <IconComponent className={`w-4 h-4 ${currentSavings === s.label ? 'text-black' : 'text-gray-600'}`} />
                     </div>
                     <span className="text-base font-medium">{s.label}</span>
-                  </button>
-                );
-              })}
+                  </button>;
+          })}
             </div>
-          </section>
-        )}
+          </section>}
 
-        {step === 12 && (
-          <section className="mt-8">
+        {step === 12 && <section className="mt-8">
             <h1 className="text-2xl font-semibold text-gray-900">What's your work situation?</h1>
             <p className="text-gray-400 mt-2">
               Choose your employment type.
             </p>
             <div className="mt-8 space-y-4">
               {employmentOptions.map(e => {
-                const IconComponent = e.icon;
-                return (
-                  <button
-                    key={e.id}
-                    onClick={() => setEmployment(e.label)}
-                    className={`w-full text-left rounded-2xl py-4 px-4 shadow-sm transition flex items-center gap-3 ${employment === e.label ? 'bg-black text-white' : 'text-gray-800'}`}
-                    style={employment !== e.label ? { backgroundColor: '#f9f8fd' } : {}}
-                  >
+            const IconComponent = e.icon;
+            return <button key={e.id} onClick={() => setEmployment(e.label)} className={`w-full text-left rounded-2xl py-4 px-4 shadow-sm transition flex items-center gap-3 ${employment === e.label ? 'bg-black text-white' : 'text-gray-800'}`} style={employment !== e.label ? {
+              backgroundColor: '#f9f8fd'
+            } : {}}>
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center ${employment === e.label ? 'bg-white' : 'bg-gray-200'}`}>
                       <IconComponent className={`w-4 h-4 ${employment === e.label ? 'text-black' : 'text-gray-600'}`} />
                     </div>
                     <span className="text-base font-medium">{e.label}</span>
-                  </button>
-                );
-              })}
+                  </button>;
+          })}
             </div>
-          </section>
-        )}
+          </section>}
 
-        {step === 13 && (
-          <section className="mt-8">
+        {step === 13 && <section className="mt-8">
             <h1 className="text-2xl font-semibold text-gray-900">How many people depend on you?</h1>
             <p className="text-gray-400 mt-2">
               Select your household size.
             </p>
             <div className="mt-8 space-y-4">
               {dependentsOptions.map(d => {
-                const IconComponent = d.icon;
-                return (
-                  <button
-                    key={d.id}
-                    onClick={() => setDependents(d.label)}
-                    className={`w-full text-left rounded-2xl py-4 px-4 shadow-sm transition flex items-center gap-3 ${dependents === d.label ? 'bg-black text-white' : 'text-gray-800'}`}
-                    style={dependents !== d.label ? { backgroundColor: '#f9f8fd' } : {}}
-                  >
+            const IconComponent = d.icon;
+            return <button key={d.id} onClick={() => setDependents(d.label)} className={`w-full text-left rounded-2xl py-4 px-4 shadow-sm transition flex items-center gap-3 ${dependents === d.label ? 'bg-black text-white' : 'text-gray-800'}`} style={dependents !== d.label ? {
+              backgroundColor: '#f9f8fd'
+            } : {}}>
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center ${dependents === d.label ? 'bg-white' : 'bg-gray-200'}`}>
                       <IconComponent className={`w-4 h-4 ${dependents === d.label ? 'text-black' : 'text-gray-600'}`} />
                     </div>
                     <span className="text-base font-medium">{d.label}</span>
-                  </button>
-                );
-              })}
+                  </button>;
+          })}
             </div>
-          </section>
-        )}
+          </section>}
 
-        {step === 14 && (
-          <motion.section 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="mt-8 text-center flex flex-col items-center relative"
-          >
+        {step === 14 && <motion.section initial={{
+        opacity: 0,
+        y: 20
+      }} animate={{
+        opacity: 1,
+        y: 0
+      }} transition={{
+        duration: 0.6,
+        ease: "easeOut"
+      }} className="mt-8 text-center flex flex-col items-center relative">
             <h1 className="text-2xl font-semibold text-gray-900 mb-6">Stay on Track with Notes</h1>
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="relative"
-            >
+            <motion.div initial={{
+          scale: 0.8,
+          opacity: 0
+        }} animate={{
+          scale: 1,
+          opacity: 1
+        }} transition={{
+          duration: 0.5,
+          delay: 0.2
+        }} className="relative">
               <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-transparent rounded-3xl blur-2xl opacity-50"></div>
               <img src={infoNotes} alt="Notes feature" loading="eager" decoding="async" fetchPriority="high" className="w-[430px] h-[430px] object-contain mb-6 relative z-10" />
             </motion.div>
-          </motion.section>
-        )}
+          </motion.section>}
 
-        {step === 15 && (
-          <section className="mt-8">
+        {step === 15 && <section className="mt-8">
             <h1 className="text-2xl font-semibold text-gray-900">How did you find us?</h1>
             <p className="text-gray-400 mt-2">Select a platform.</p>
 
             <div className="mt-6 space-y-4 pb-24">
-              {sources.map(s => (
-                <button
-                  key={s.name}
-                  onClick={() => setSource(s.name)}
-                  className={`flex items-center gap-3 rounded-2xl py-4 px-4 w-full transition border text-left ${
-                    source === s.name ? 'bg-black text-white border-black' : 'text-gray-800 border-gray-100'
-                  }`}
-                  style={source !== s.name ? { backgroundColor: '#f9f8fd' } : {}}
-                >
-                  <img src={s.logo} alt={s.name} loading="eager" decoding="async" className="w-6 h-6" style={{ filter: 'none' }} />
-                  <span className="text-base font-medium" style={{ color: source === s.name ? '#fff' : s.color }}>{s.name}</span>
-                </button>
-              ))}
+              {sources.map(s => <button key={s.name} onClick={() => setSource(s.name)} className={`flex items-center gap-3 rounded-2xl py-4 px-4 w-full transition border text-left ${source === s.name ? 'bg-black text-white border-black' : 'text-gray-800 border-gray-100'}`} style={source !== s.name ? {
+            backgroundColor: '#f9f8fd'
+          } : {}}>
+                  <img src={s.logo} alt={s.name} loading="eager" decoding="async" className="w-6 h-6" style={{
+              filter: 'none'
+            }} />
+                  <span className="text-base font-medium" style={{
+              color: source === s.name ? '#fff' : s.color
+            }}>{s.name}</span>
+                </button>)}
             </div>
-          </section>
-        )}
+          </section>}
 
-        {step === 16 && (
-          <motion.section 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="mt-8 text-center flex flex-col items-center relative"
-          >
+        {step === 16 && <motion.section initial={{
+        opacity: 0,
+        y: 20
+      }} animate={{
+        opacity: 1,
+        y: 0
+      }} transition={{
+        duration: 0.6,
+        ease: "easeOut"
+      }} className="mt-8 text-center flex flex-col items-center relative">
             <h1 className="text-2xl font-semibold text-gray-900 mb-6">Complete Transaction History</h1>
-            <motion.div
-              initial={{ scale: 0.8, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5, delay: 0.2 }}
-              className="relative"
-            >
+            <motion.div initial={{
+          scale: 0.8,
+          opacity: 0
+        }} animate={{
+          scale: 1,
+          opacity: 1
+        }} transition={{
+          duration: 0.5,
+          delay: 0.2
+        }} className="relative">
               <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-transparent rounded-3xl blur-2xl opacity-50"></div>
               <img src={infoTransactions} alt="Transaction records" loading="eager" decoding="async" fetchPriority="high" className="w-[430px] h-[430px] object-contain mb-6 relative z-10" />
             </motion.div>
-          </motion.section>
-        )}
+          </motion.section>}
 
-        {step === 17 && (
-          <section className="mt-20 text-center">
+        {step === 17 && <section className="mt-20 text-center">
             <h1 className="text-5xl font-bold mb-4">{progress}%</h1>
             <p className="text-lg font-semibold mb-4">We're setting Jars Goals for you</p>
 
             <div className="w-72 h-2 mx-auto rounded-full bg-gray-200 overflow-hidden">
-              <motion.div
-                className="h-full bg-gradient-to-r from-pink-500 to-blue-500"
-                initial={{ width: '0%' }}
-                animate={{ width: `${progress}%` }}
-                transition={{ duration: 0.3 }}
-              />
+              <motion.div className="h-full bg-gradient-to-r from-pink-500 to-blue-500" initial={{
+            width: '0%'
+          }} animate={{
+            width: `${progress}%`
+          }} transition={{
+            duration: 0.3
+          }} />
             </div>
 
-            <div className="mt-8 rounded-2xl p-5 shadow-lg w-80 mx-auto" style={{ backgroundColor: '#f9f8fd' }}>
+            <div className="mt-8 rounded-2xl p-5 shadow-lg w-80 mx-auto" style={{
+          backgroundColor: '#f9f8fd'
+        }}>
               <h2 className="font-semibold text-lg mb-2">Daily recommendation progress</h2>
-              {["Goals", "Sticky Notes", "Folders", "Transaction Records", "Calculators"].map((item, i) => (
-                <div key={i} className="py-2 text-left">
+              {["Goals", "Sticky Notes", "Folders", "Transaction Records", "Calculators"].map((item, i) => <div key={i} className="py-2 text-left">
                   <div className="flex justify-between mb-1">
                     <span>{item}</span>
                     <span>{progress}%</span>
                   </div>
                   <div className="w-full h-2 rounded-full bg-gray-200 overflow-hidden">
-                    <motion.div
-                      className="h-full bg-black"
-                      initial={{ width: '0%' }}
-                      animate={{ width: `${progress}%` }}
-                      transition={{ duration: 0.3 }}
-                    />
+                    <motion.div className="h-full bg-black" initial={{
+                width: '0%'
+              }} animate={{
+                width: `${progress}%`
+              }} transition={{
+                duration: 0.3
+              }} />
                   </div>
-                </div>
-              ))}
+                </div>)}
             </div>
-          </section>
-        )}
+          </section>}
       </div>
 
-      {!complete && step < 17 && (
-        <div className="fixed bottom-6 left-6 right-6">
+      {!complete && step < 17 && <div className="fixed bottom-6 left-6 right-6">
           <div className="max-w-3xl mx-auto">
-            <button
-              onClick={handleContinue}
-              className="w-full rounded-full py-5 text-lg font-medium shadow-lg bg-black text-white"
-            >
+            <button onClick={handleContinue} className="w-full rounded-full py-5 text-lg font-medium shadow-lg bg-black text-white">
               Continue
             </button>
           </div>
-        </div>
-      )}
-    </div>
-  );
+        </div>}
+    </div>;
 }
