@@ -773,34 +773,19 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
             transition={{ duration: 0.6, ease: "easeOut" }}
             className="mt-8 text-center flex flex-col items-center relative"
           >
-            {/* Lock icon above heading */}
-            <motion.div 
-              className="mb-6"
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ delay: 0.3 }}
-            >
-              <div className="w-16 h-16 rounded-2xl bg-black flex items-center justify-center">
-                <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                  <rect x="5" y="11" width="14" height="10" rx="2" ry="2"/>
-                  <path d="M7 11V7a5 5 0 0 1 10 0v4"/>
-                </svg>
-              </div>
-            </motion.div>
-
-            <div className="relative w-72 h-72 mx-auto mb-8 flex items-center justify-center">
+            <div className="relative w-80 h-80 mx-auto mb-8 flex items-center justify-center">
               {/* Gradient circular background */}
               <div className="absolute inset-0 rounded-full bg-gradient-to-br from-pink-100 via-purple-100 to-blue-100 opacity-60"></div>
               
               {/* White center circle - increased size */}
-              <div className="absolute inset-[15%] rounded-full bg-white flex items-center justify-center shadow-sm">
+              <div className="absolute inset-[8%] rounded-full bg-white flex items-center justify-center shadow-sm">
                 {/* Clapping hands illustration with dots */}
-                <svg viewBox="0 0 200 200" className="w-40 h-40">
+                <svg viewBox="0 0 240 240" className="w-48 h-48">
                   {/* Decorative dots around the hands */}
                   {[0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330].map((angle, i) => {
                     const rad = (angle * Math.PI) / 180;
-                    const x = 100 + 75 * Math.cos(rad);
-                    const y = 100 + 75 * Math.sin(rad);
+                    const x = 120 + 85 * Math.cos(rad);
+                    const y = 120 + 85 * Math.sin(rad);
                     return (
                       <motion.circle
                         key={i}
@@ -815,27 +800,95 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
                     );
                   })}
                   
-                  {/* Left hand with sleeve */}
+                  {/* Left hand with horizontal striped sleeve */}
                   <motion.g
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, delay: 0.4 }}
+                    initial={{ opacity: 0, x: -30, rotate: -10 }}
+                    animate={{ 
+                      opacity: 1, 
+                      x: 0, 
+                      rotate: 0,
+                    }}
+                    transition={{ 
+                      duration: 0.6, 
+                      delay: 0.4,
+                      repeat: Infinity,
+                      repeatType: "reverse",
+                      repeatDelay: 1
+                    }}
                   >
-                    {/* Sleeve */}
+                    {/* Horizontal striped sleeve */}
                     <path
-                      d="M 60 130 L 55 145 Q 54 150 58 152 L 68 152 Q 70 150 69 147 L 65 132"
-                      fill="#f3f4f6"
+                      d="M 75 155 L 70 175 Q 68 182 73 185 L 88 185 Q 92 183 91 178 L 87 157"
+                      fill="#fff"
                       stroke="#000"
                       strokeWidth="2.5"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     />
-                    {/* Sleeve lines */}
-                    <line x1="57" y1="148" x2="66" y2="148" stroke="#000" strokeWidth="1.5"/>
+                    {/* Horizontal lines on sleeve */}
+                    <line x1="72" y1="178" x2="88" y2="178" stroke="#000" strokeWidth="2"/>
+                    <line x1="73" y1="182" x2="87" y2="182" stroke="#000" strokeWidth="2"/>
+                    <line x1="74" y1="170" x2="88" y2="170" stroke="#000" strokeWidth="2"/>
+                    <line x1="75" y1="166" x2="88" y2="166" stroke="#000" strokeWidth="2"/>
+                    <line x1="76" y1="162" x2="88" y2="162" stroke="#000" strokeWidth="2"/>
                     
-                    {/* Palm and fingers */}
+                    {/* Palm */}
                     <path
-                      d="M 65 132 Q 60 122 62 112 L 68 97 Q 70 92 74 95 L 76 117 Q 78 92 82 91 Q 85 90 86 95 L 87 117 Q 90 94 93 94 Q 96 94 97 99 L 98 119 Q 100 102 103 102 Q 106 102 107 107 L 107 127 Q 107 142 100 149 Q 93 155 85 155 Q 75 155 70 147 Z"
+                      d="M 87 157 Q 82 145 84 133 Q 86 125 90 120 L 92 110"
+                      fill="none"
+                      stroke="#000"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    {/* Thumb */}
+                    <path
+                      d="M 92 110 Q 95 105 99 108 L 102 125 Q 103 135 100 140"
+                      fill="none"
+                      stroke="#000"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    {/* Index finger */}
+                    <path
+                      d="M 90 120 Q 92 115 95 115 Q 98 115 99 120 L 102 140 Q 103 148 100 150"
+                      fill="none"
+                      stroke="#000"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    {/* Middle finger */}
+                    <path
+                      d="M 88 120 Q 90 112 93 110 Q 96 109 98 113 L 102 138 Q 103 148 100 152"
+                      fill="none"
+                      stroke="#000"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    {/* Ring finger */}
+                    <path
+                      d="M 86 122 Q 88 115 91 115 Q 94 115 95 120 L 98 143 Q 99 150 96 152"
+                      fill="none"
+                      stroke="#000"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    {/* Pinky */}
+                    <path
+                      d="M 84 128 Q 85 122 88 122 Q 91 122 92 127 L 94 145 Q 95 150 92 152"
+                      fill="none"
+                      stroke="#000"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    {/* Palm connection */}
+                    <path
+                      d="M 87 157 Q 90 152 92 152 Q 96 152 100 150 Q 100 145 100 140"
                       fill="none"
                       stroke="#000"
                       strokeWidth="2.5"
@@ -844,27 +897,94 @@ export default function OnboardingFlow({ onComplete }: OnboardingFlowProps) {
                     />
                   </motion.g>
                   
-                  {/* Right hand with sleeve */}
+                  {/* Right hand with diagonal striped sleeve */}
                   <motion.g
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ duration: 0.6, delay: 0.4 }}
+                    initial={{ opacity: 0, x: 30, rotate: 10 }}
+                    animate={{ 
+                      opacity: 1, 
+                      x: 0, 
+                      rotate: 0,
+                    }}
+                    transition={{ 
+                      duration: 0.6, 
+                      delay: 0.4,
+                      repeat: Infinity,
+                      repeatType: "reverse",
+                      repeatDelay: 1
+                    }}
                   >
-                    {/* Sleeve */}
+                    {/* Diagonal striped sleeve */}
                     <path
-                      d="M 140 130 L 145 145 Q 146 150 142 152 L 132 152 Q 130 150 131 147 L 135 132"
-                      fill="#f3f4f6"
+                      d="M 165 155 L 170 175 Q 172 182 167 185 L 152 185 Q 148 183 149 178 L 153 157"
+                      fill="#000"
                       stroke="#000"
                       strokeWidth="2.5"
                       strokeLinecap="round"
                       strokeLinejoin="round"
                     />
-                    {/* Sleeve lines */}
-                    <line x1="134" y1="148" x2="143" y2="148" stroke="#000" strokeWidth="1.5"/>
+                    {/* Diagonal lines on sleeve */}
+                    <line x1="152" y1="161" x2="158" y2="178" stroke="#fff" strokeWidth="2"/>
+                    <line x1="156" y1="160" x2="162" y2="180" stroke="#fff" strokeWidth="2"/>
+                    <line x1="160" y1="161" x2="166" y2="182" stroke="#fff" strokeWidth="2"/>
+                    <line x1="164" y1="163" x2="168" y2="176" stroke="#fff" strokeWidth="2"/>
                     
-                    {/* Palm and fingers */}
+                    {/* Palm */}
                     <path
-                      d="M 135 132 Q 140 122 138 112 L 132 97 Q 130 92 126 95 L 124 117 Q 122 92 118 91 Q 115 90 114 95 L 113 117 Q 110 94 107 94 Q 104 94 103 99 L 102 119 Q 100 102 97 102 Q 94 102 93 107 L 93 127 Q 93 142 100 149 Q 107 155 115 155 Q 125 155 130 147 Z"
+                      d="M 153 157 Q 158 145 156 133 Q 154 125 150 120 L 148 110"
+                      fill="none"
+                      stroke="#000"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    {/* Thumb */}
+                    <path
+                      d="M 148 110 Q 145 105 141 108 L 138 125 Q 137 135 140 140"
+                      fill="none"
+                      stroke="#000"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    {/* Index finger */}
+                    <path
+                      d="M 150 120 Q 148 115 145 115 Q 142 115 141 120 L 138 140 Q 137 148 140 150"
+                      fill="none"
+                      stroke="#000"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    {/* Middle finger */}
+                    <path
+                      d="M 152 120 Q 150 112 147 110 Q 144 109 142 113 L 138 138 Q 137 148 140 152"
+                      fill="none"
+                      stroke="#000"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    {/* Ring finger */}
+                    <path
+                      d="M 154 122 Q 152 115 149 115 Q 146 115 145 120 L 142 143 Q 141 150 144 152"
+                      fill="none"
+                      stroke="#000"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    {/* Pinky */}
+                    <path
+                      d="M 156 128 Q 155 122 152 122 Q 149 122 148 127 L 146 145 Q 145 150 148 152"
+                      fill="none"
+                      stroke="#000"
+                      strokeWidth="2.5"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                    {/* Palm connection */}
+                    <path
+                      d="M 153 157 Q 150 152 148 152 Q 144 152 140 150 Q 140 145 140 140"
                       fill="none"
                       stroke="#000"
                       strokeWidth="2.5"
