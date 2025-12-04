@@ -1,4 +1,4 @@
-import { Home, BarChart3, Folder, Wrench } from 'lucide-react';
+import { Home, BarChart3, Wrench, Settings } from 'lucide-react';
 import { NavLink } from 'react-router-dom';
 
 const triggerHaptic = async () => {
@@ -66,31 +66,6 @@ export const BottomNav = () => {
           </NavLink>
 
           <NavLink
-            to="/folders"
-            onClick={triggerHaptic}
-            className={({ isActive }) =>
-              `flex flex-col items-center justify-center py-1.5 px-2 transition-all ${
-                isActive
-                  ? 'text-[#000000] dark:text-white'
-                  : 'text-muted-foreground'
-              }`
-            }
-          >
-            {({ isActive }) => (
-              <>
-                <Folder
-                  size={22}
-                  className="mb-0.5"
-                  strokeWidth={isActive ? 2.5 : 2}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                />
-                <span className="text-[10px] font-medium">Folders</span>
-              </>
-            )}
-          </NavLink>
-
-          <NavLink
             to="/tools"
             onClick={triggerHaptic}
             className={({ isActive }) =>
@@ -111,6 +86,31 @@ export const BottomNav = () => {
                   strokeLinejoin="round"
                 />
                 <span className="text-[10px] font-medium">Tools</span>
+              </>
+            )}
+          </NavLink>
+
+          <NavLink
+            to="/settings"
+            onClick={triggerHaptic}
+            className={({ isActive }) =>
+              `flex flex-col items-center justify-center py-1.5 px-2 transition-all ${
+                isActive
+                  ? 'text-[#000000] dark:text-white'
+                  : 'text-muted-foreground'
+              }`
+            }
+          >
+            {({ isActive }) => (
+              <>
+                <Settings
+                  size={22}
+                  className="mb-0.5"
+                  strokeWidth={isActive ? 2.5 : 2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+                <span className="text-[10px] font-medium">Settings</span>
               </>
             )}
           </NavLink>

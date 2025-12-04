@@ -237,8 +237,6 @@ export default function OnboardingFlow({
   }, [step]);
   const handleContinue = () => {
     if (step === 2) {
-      setStep(2.5);
-    } else if (step === 2.5) {
       setStep(3);
     } else if (step === 4) {
       setStep(4.5);
@@ -251,8 +249,6 @@ export default function OnboardingFlow({
     } else if (step === 7) {
       setStep(9);
     } else if (step === 9) {
-      setStep(9.5);
-    } else if (step === 9.5) {
       setStep(10);
     } else if (step < 17) {
       setStep(step + 1);
@@ -261,10 +257,8 @@ export default function OnboardingFlow({
   const handleBack = () => {
     if (step === 1) {
       setShowWelcome(true);
-    } else if (step === 2.5) {
-      setStep(2);
     } else if (step === 3) {
-      setStep(2.5);
+      setStep(2);
     } else if (step === 4.5) {
       setStep(4);
     } else if (step === 5) {
@@ -275,10 +269,8 @@ export default function OnboardingFlow({
       setStep(6.5);
     } else if (step === 9) {
       setStep(7);
-    } else if (step === 9.5) {
-      setStep(9);
     } else if (step === 10) {
-      setStep(9.5);
+      setStep(9);
     } else {
       setStep(step - 1);
     }
@@ -420,51 +412,6 @@ export default function OnboardingFlow({
             </div>
           </section>}
 
-        {step === 2.5 && <motion.section initial={{
-        opacity: 0
-      }} animate={{
-        opacity: 1
-      }} transition={{
-        duration: 0.5
-      }} className="mt-8 text-center flex flex-col items-center">
-            <h1 className="text-2xl font-semibold text-gray-900 mb-4">Income Growth Trends</h1>
-            <p className="text-gray-400 mb-8">Track how your savings grow over time</p>
-            
-            <div className="relative w-full max-w-sm h-64 flex items-end justify-around gap-2 px-8">
-              {[40, 65, 85, 95].map((height, index) => <motion.div key={index} initial={{
-            height: 0,
-            opacity: 0
-          }} animate={{
-            height: `${height}%`,
-            opacity: 1
-          }} transition={{
-            duration: 0.8,
-            delay: index * 0.15,
-            ease: "easeOut"
-          }} className="flex-1 bg-black rounded-t-xl relative" style={{
-            maxWidth: '60px'
-          }}>
-                  <motion.div initial={{
-              scale: 0
-            }} animate={{
-              scale: 1
-            }} transition={{
-              duration: 0.4,
-              delay: index * 0.15 + 0.5,
-              ease: "backOut"
-            }} className="absolute -top-8 left-1/2 -translate-x-1/2 bg-stone-100 px-2 py-1 rounded-md text-xs font-semibold whitespace-nowrap">
-                    ${(index + 1) * 250}
-                  </motion.div>
-                </motion.div>)}
-            </div>
-            
-            <div className="flex justify-around w-full max-w-sm px-8 mt-4">
-              <span className="text-xs text-gray-500">Jan</span>
-              <span className="text-xs text-gray-500">Feb</span>
-              <span className="text-xs text-gray-500">Mar</span>
-              <span className="text-xs text-gray-500">Apr</span>
-            </div>
-          </motion.section>}
 
         {step === 3 && <section className="mt-8">
             <h1 className="text-2xl font-semibold text-gray-900">How much can you save each month?</h1>
@@ -516,7 +463,7 @@ export default function OnboardingFlow({
             <h1 className="text-2xl font-semibold text-gray-900 mb-2">You have great potential</h1>
             <h1 className="text-2xl font-semibold text-gray-900 mb-4">to crush your goal</h1>
             
-            <div className="rounded-3xl p-8 w-full max-w-md mt-4 bg-slate-200">
+            <div className="rounded-3xl p-8 w-full max-w-md mt-4">
               <p className="text-base font-semibold text-gray-900 mb-6 text-left">Your savings transition</p>
               
               <svg viewBox="0 0 400 280" className="w-full h-64">
@@ -667,7 +614,7 @@ export default function OnboardingFlow({
             <h1 className="text-2xl font-semibold text-gray-900 mb-2">Jarify creates</h1>
             <h1 className="text-2xl font-semibold text-gray-900 mb-4">long-term results</h1>
             
-            <div className="bg-stone-50 rounded-3xl p-8 w-full max-w-md mt-4">
+            <div className="rounded-3xl p-8 w-full max-w-md mt-4">
               <p className="text-base font-semibold text-gray-900 mb-6 text-left">Your savings</p>
               
               <svg viewBox="0 0 400 280" className="w-full h-64">
@@ -948,74 +895,6 @@ export default function OnboardingFlow({
             </motion.div>
           </motion.section>}
 
-        {step === 9.5 && <section className="mt-8">
-            <h1 className="text-2xl font-semibold text-gray-900">Have you tried any other</h1>
-            <h1 className="text-2xl font-semibold text-gray-900 mb-2">Saving App?</h1>
-            <p className="text-gray-400 mt-2">
-              Let us know your experience.
-            </p>
-            <div className="mt-24 space-y-4">
-              <button onClick={() => setTriedOtherApp('yes')} className={`w-full rounded-3xl py-5 px-6 shadow-sm transition-all flex items-center gap-4 ${triedOtherApp === 'yes' ? 'bg-[#1f2937] text-white' : 'bg-[#1f2937] text-white'}`}>
-                <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center flex-shrink-0">
-                  <ThumbsUp className="w-7 h-7 text-[#1f2937]" strokeWidth={2} fill="#1f2937" />
-                </div>
-                <span className="text-xl font-medium">Yes</span>
-              </button>
-
-              <button onClick={() => setTriedOtherApp('no')} className={`w-full rounded-3xl py-5 px-6 shadow-sm transition-all flex items-center gap-4 ${triedOtherApp === 'no' ? 'bg-[#1f2937] text-white' : 'bg-[#f3f4f6] text-gray-900'}`}>
-                <div className={`w-14 h-14 rounded-full flex items-center justify-center flex-shrink-0 ${triedOtherApp === 'no' ? 'bg-white' : 'bg-white'}`}>
-                  <ThumbsDown className={`w-7 h-7 ${triedOtherApp === 'no' ? 'text-[#1f2937]' : 'text-[#1f2937]'}`} strokeWidth={2} fill={triedOtherApp === 'no' ? '#1f2937' : '#1f2937'} />
-                </div>
-                <span className="text-xl font-medium">No</span>
-              </button>
-            </div>
-          </section>}
-
-        {step === 10 && <motion.section initial={{
-        opacity: 0,
-        y: 20
-      }} animate={{
-        opacity: 1,
-        y: 0
-      }} transition={{
-        duration: 0.6,
-        ease: "easeOut"
-      }} className="mt-8 text-center flex flex-col items-center relative">
-            <h1 className="text-2xl font-semibold text-gray-900 mb-6">Organize with Smart Folders</h1>
-            <motion.div initial={{
-          scale: 0.8,
-          opacity: 0
-        }} animate={{
-          scale: 1,
-          opacity: 1
-        }} transition={{
-          duration: 0.5,
-          delay: 0.2
-        }} className="relative">
-              <div className="absolute inset-0 bg-gradient-to-br from-gray-100 to-transparent rounded-3xl blur-2xl opacity-50"></div>
-              <img src={infoFolders} alt="Smart folders" loading="eager" decoding="async" fetchPriority="high" className="w-[430px] h-[430px] object-contain mb-6 relative z-10" />
-            </motion.div>
-          </motion.section>}
-
-        {step === 11 && <section className="mt-8">
-            <h1 className="text-2xl font-semibold text-gray-900">How much have you saved?</h1>
-            <p className="text-gray-400 mt-2">
-              Select your current savings amount.
-            </p>
-            <div className="mt-8 space-y-4">
-              {currentSavingsOptions.map(s => {
-            const IconComponent = s.icon;
-            return <button key={s.id} onClick={() => setCurrentSavings(s.label)} className={`w-full text-left rounded-2xl py-4 px-4 shadow-sm transition flex items-center gap-3 ${currentSavings === s.label ? 'bg-black text-white' : 'text-gray-800'}`} style={currentSavings !== s.label ? {
-              backgroundColor: '#f9f8fd'
-            } : {}}>
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${currentSavings === s.label ? 'bg-white' : 'bg-gray-200'}`}>
-                      <IconComponent className={`w-4 h-4 ${currentSavings === s.label ? 'text-black' : 'text-gray-600'}`} />
-                    </div>
-                    <span className="text-base font-medium">{s.label}</span>
-                  </button>;
-          })}
-            </div>
-          </section>}
 
         {step === 12 && <section className="mt-8">
             <h1 className="text-2xl font-semibold text-gray-900">What's your work situation?</h1>
