@@ -1,9 +1,12 @@
-import { ArrowLeft, ChevronRight, Settings as SettingsIcon } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { ArrowLeft, ChevronRight, Settings as SettingsIcon, Bell } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { BackupSync } from '@/components/BackupSync';
 import { useToast } from '@/hooks/use-toast';
 import { hapticFeedback } from '@/lib/haptics';
 import { storage } from '@/lib/storage';
+import { Switch } from '@/components/ui/switch';
+import { LocalNotifications } from '@capacitor/local-notifications';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -15,12 +18,127 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from '@/components/ui/alert-dialog';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { Label } from '@/components/ui/label';
+import { Input } from '@/components/ui/input';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@/components/ui/select';
+import { Button } from '@/components/ui/button';
 
 const PLAY_STORE_LINK = 'https://play.google.com/store/apps/details?id=com.jarify.app';
+
+interface NotificationPreferences {
+  enabled: boolean;
+  frequency: 'daily' | 'weekly' | 'monthly' | 'custom';
+  customDate?: string;
+  customTime: string;
+  message: string;
+}
 
 const Settings = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+  const [notificationPrefs, setNotificationPrefs] = useState<NotificationPreferences>({
+    enabled: false,
+    frequency: 'daily',
+    customTime: '09:00',
+    message: "Time to check your savings goals! 💰",
+  });
+
+  useEffect(() => {
+    const saved = localStorage.getItem('jarify_notifications');
+    if (saved) {
+      setNotificationPrefs(JSON.parse(saved));
+    }
+  }, []);
+
+  const handleNotificationToggle = async (enabled: boolean) => {
+    const newPrefs = { ...notificationPrefs, enabled };
+    setNotificationPrefs(newPrefs);
+    localStorage.setItem('jarify_notifications', JSON.stringify(newPrefs));
+
+    if (!enabled) {
+      await LocalNotifications.cancel({ notifications: [{ id: 1 }] });
+      toast({
+        title: 'Notifications Disabled',
+        description: "You won't receive any more reminders.",
+      });
+    } else {
+      scheduleNotifications(newPrefs);
+    }
+  };
+
+  const scheduleNotifications = async (prefs: NotificationPreferences) => {
+    try {
+      await LocalNotifications.cancel({ notifications: [{ id: 1 }] });
+      if (!prefs.enabled) return;
+
+      const [hours, minutes] = prefs.customTime.split(':').map(Number);
+      const now = new Date();
+      const scheduledTime = new Date(now);
+      scheduledTime.setHours(hours, minutes, 0, 0);
+
+      if (scheduledTime <= now) {
+        scheduledTime.setDate(scheduledTime.getDate() + 1);
+      }
+
+      let schedule: any = { at: scheduledTime };
+
+      if (prefs.frequency === 'daily') {
+        schedule.every = 'day';
+      } else if (prefs.frequency === 'weekly') {
+        schedule.every = 'week';
+      } else if (prefs.frequency === 'monthly') {
+        schedule.every = 'month';
+      } else if (prefs.frequency === 'custom' && prefs.customDate) {
+        const customDate = new Date(prefs.customDate);
+        customDate.setHours(hours, minutes, 0, 0);
+        schedule = { at: customDate };
+      }
+
+      await LocalNotifications.schedule({
+        notifications: [
+          {
+            title: 'Jarify Reminder',
+            body: prefs.message,
+            id: 1,
+            schedule,
+            sound: undefined,
+            attachments: undefined,
+            actionTypeId: '',
+            extra: null,
+          },
+        ],
+      });
+
+      toast({
+        title: 'Notifications Scheduled',
+        description: `You'll receive ${prefs.frequency} reminders at ${prefs.customTime}.`,
+      });
+    } catch (error) {
+      console.error('Error scheduling notifications:', error);
+    }
+  };
+
+  const saveNotificationSettings = () => {
+    localStorage.setItem('jarify_notifications', JSON.stringify(notificationPrefs));
+    scheduleNotifications(notificationPrefs);
+    toast({
+      title: 'Settings Saved',
+      description: 'Your notification preferences have been updated.',
+    });
+  };
 
   const handleClearData = async () => {
     await hapticFeedback.warning();
@@ -84,6 +202,13 @@ const Settings = () => {
     </button>
   );
 
+  const SettingsToggleItem = ({ label, checked, onCheckedChange }: { label: string; checked: boolean; onCheckedChange: (checked: boolean) => void }) => (
+    <div className="w-full flex items-center justify-between py-4 px-4 border-b border-border/50">
+      <span className="text-base text-foreground">{label}</span>
+      <Switch checked={checked} onCheckedChange={onCheckedChange} />
+    </div>
+  );
+
   const SectionHeader = ({ icon, label }: { icon?: React.ReactNode; label: string }) => (
     <div className="flex items-center gap-2 px-4 py-3 text-muted-foreground">
       {icon}
@@ -109,6 +234,95 @@ const Settings = () => {
       </div>
 
       <div className="max-w-[800px] mx-auto">
+        {/* Notifications Section */}
+        <SectionHeader icon={<Bell className="w-4 h-4" />} label="Notifications" />
+        <div className="bg-card rounded-lg mb-4 mx-4 overflow-hidden shadow-sm">
+          <SettingsToggleItem 
+            label="Push notifications" 
+            checked={notificationPrefs.enabled} 
+            onCheckedChange={handleNotificationToggle} 
+          />
+          {notificationPrefs.enabled && (
+            <Dialog>
+              <DialogTrigger asChild>
+                <button className="w-full flex items-center justify-between py-4 px-4 text-foreground hover:bg-accent/50 transition-colors border-b border-border/50">
+                  <span className="text-base">Reminder settings</span>
+                  <ChevronRight className="w-5 h-5 text-muted-foreground" />
+                </button>
+              </DialogTrigger>
+              <DialogContent className="sm:max-w-md">
+                <DialogHeader>
+                  <DialogTitle>Reminder Settings</DialogTitle>
+                </DialogHeader>
+                <div className="flex flex-col gap-4 py-4">
+                  <div className="flex flex-col gap-2">
+                    <Label>Frequency</Label>
+                    <Select
+                      value={notificationPrefs.frequency}
+                      onValueChange={(value: any) =>
+                        setNotificationPrefs({ ...notificationPrefs, frequency: value })
+                      }
+                    >
+                      <SelectTrigger>
+                        <SelectValue />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="daily">Daily</SelectItem>
+                        <SelectItem value="weekly">Weekly</SelectItem>
+                        <SelectItem value="monthly">Monthly</SelectItem>
+                        <SelectItem value="custom">Custom Date</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  {notificationPrefs.frequency === 'custom' && (
+                    <div className="flex flex-col gap-2">
+                      <Label>Select Date</Label>
+                      <Input
+                        type="date"
+                        value={notificationPrefs.customDate || ''}
+                        onChange={(e) =>
+                          setNotificationPrefs({
+                            ...notificationPrefs,
+                            customDate: e.target.value,
+                          })
+                        }
+                      />
+                    </div>
+                  )}
+
+                  <div className="flex flex-col gap-2">
+                    <Label>Time</Label>
+                    <Input
+                      type="time"
+                      value={notificationPrefs.customTime}
+                      onChange={(e) =>
+                        setNotificationPrefs({ ...notificationPrefs, customTime: e.target.value })
+                      }
+                    />
+                  </div>
+
+                  <div className="flex flex-col gap-2">
+                    <Label>Message</Label>
+                    <Input
+                      type="text"
+                      value={notificationPrefs.message}
+                      onChange={(e) =>
+                        setNotificationPrefs({ ...notificationPrefs, message: e.target.value })
+                      }
+                      placeholder="Enter your reminder message"
+                    />
+                  </div>
+
+                  <Button onClick={saveNotificationSettings} className="w-full">
+                    Save Settings
+                  </Button>
+                </div>
+              </DialogContent>
+            </Dialog>
+          )}
+        </div>
+
         {/* Data Management Section */}
         <div className="bg-card rounded-lg mb-4 mx-4 overflow-hidden shadow-sm">
           <BackupSync 
@@ -179,4 +393,3 @@ const Settings = () => {
 };
 
 export default Settings;
-
