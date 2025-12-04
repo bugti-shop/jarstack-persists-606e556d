@@ -1,168 +1,182 @@
-import { useState, useEffect } from 'react';
-import { ArrowLeft, Moon, Sun, Bell, Download, Upload, Trash2 } from 'lucide-react';
+import { ArrowLeft, ChevronRight, Settings as SettingsIcon } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { Card } from '@/components/ui/card';
-import { Switch } from '@/components/ui/switch';
-import { Button } from '@/components/ui/button';
-import { NotificationSettings } from '@/components/NotificationSettings';
 import { BackupSync } from '@/components/BackupSync';
-import { storage } from '@/lib/storage';
 import { useToast } from '@/hooks/use-toast';
 import { hapticFeedback } from '@/lib/haptics';
+import { storage } from '@/lib/storage';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from '@/components/ui/alert-dialog';
+
+const PLAY_STORE_LINK = 'https://play.google.com/store/apps/details?id=com.jarify.app';
 
 const Settings = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
-  const [darkMode, setDarkMode] = useState(false);
-  const [currentTheme, setCurrentTheme] = useState('light');
-
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('app_theme') || 'light';
-    setCurrentTheme(savedTheme);
-    setDarkMode(savedTheme !== 'light');
-  }, []);
-
-  const themes = ['light', 'ocean', 'forest', 'sunset', 'midnight'];
-  
-  const cycleTheme = () => {
-    const currentIndex = themes.indexOf(currentTheme);
-    const nextIndex = (currentIndex + 1) % themes.length;
-    const nextTheme = themes[nextIndex];
-    
-    setCurrentTheme(nextTheme);
-    applyTheme(nextTheme);
-    localStorage.setItem('app_theme', nextTheme);
-    setDarkMode(nextTheme !== 'light');
-  };
-
-  const applyTheme = (themeId: string) => {
-    const root = document.documentElement;
-    root.classList.remove('light', 'dark', 'ocean', 'forest', 'sunset', 'rose', 'midnight', 'minimal', 'nebula', 'obsidian', 'graphite', 'onyx', 'charcoal');
-    root.classList.add(themeId);
-  };
 
   const handleClearData = async () => {
-    if (window.confirm('Are you sure you want to delete all your data? This action cannot be undone.')) {
-      await hapticFeedback.warning();
-      storage.clearAll();
-      toast({
-        title: 'Data Cleared',
-        description: 'All your data has been deleted.',
-        variant: 'destructive',
-      });
-      setTimeout(() => window.location.reload(), 1000);
+    await hapticFeedback.warning();
+    storage.clearAll();
+    toast({
+      title: 'Data Cleared',
+      description: 'All your data has been deleted.',
+      variant: 'destructive',
+    });
+    setTimeout(() => window.location.reload(), 1000);
+  };
+
+  const handleShare = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: 'Jarify - Savings App',
+          text: 'Check out Jarify, the best savings app!',
+          url: PLAY_STORE_LINK,
+        });
+      } catch (err) {
+        // User cancelled or error
+      }
+    } else {
+      window.open(PLAY_STORE_LINK, '_blank');
     }
   };
 
-  // Use semantic tokens from design system
-  const bgColor = 'bg-background';
-  const cardBg = 'bg-card';
-  const textColor = 'text-foreground';
-  const textSecondary = 'text-muted-foreground';
+  const handleRateApp = () => {
+    window.open(PLAY_STORE_LINK, '_blank');
+  };
+
+  const handleDownloadData = () => {
+    const data = {
+      jars: localStorage.getItem('jarify_jars'),
+      categories: localStorage.getItem('jarify_categories'),
+      notes: localStorage.getItem('jarify_notes'),
+      darkMode: localStorage.getItem('jarify_darkMode'),
+      exportDate: new Date().toISOString(),
+    };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'jarify-backup.json';
+    a.click();
+    URL.revokeObjectURL(url);
+    toast({
+      title: 'Download Complete',
+      description: 'Your data has been downloaded.',
+    });
+  };
+
+  const SettingsItem = ({ label, onClick }: { label: string; onClick?: () => void }) => (
+    <button
+      onClick={onClick}
+      className="w-full flex items-center justify-between py-4 px-4 text-foreground hover:bg-accent/50 transition-colors border-b border-border/50"
+    >
+      <span className="text-base">{label}</span>
+      <ChevronRight className="w-5 h-5 text-muted-foreground" />
+    </button>
+  );
+
+  const SectionHeader = ({ icon, label }: { icon?: React.ReactNode; label: string }) => (
+    <div className="flex items-center gap-2 px-4 py-3 text-muted-foreground">
+      {icon}
+      <span className="text-sm font-medium">{label}</span>
+    </div>
+  );
 
   return (
-    <div className={`min-h-screen ${bgColor} pb-24`}>
+    <div className="min-h-screen bg-background pb-24">
       {/* Header */}
-      <div className="sticky top-0 z-30 mb-6 bg-background/90 backdrop-blur-md border-b border-border shadow-lg">
+      <div className="sticky top-0 z-30 mb-2 bg-background/90 backdrop-blur-md border-b border-border shadow-sm">
         <div className="max-w-[1400px] mx-auto px-4 sm:px-6 py-4">
           <div className="flex items-center gap-4">
             <button
               onClick={() => navigate('/')}
               className="p-2 rounded-full hover:bg-accent transition-colors"
             >
-              <ArrowLeft className={textColor} size={24} />
+              <ArrowLeft className="text-foreground" size={24} />
             </button>
-            <h1 className={`text-2xl sm:text-3xl font-bold ${textColor}`}>Settings</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold text-foreground">Settings</h1>
           </div>
         </div>
       </div>
 
-      <div className="max-w-[800px] mx-auto px-4 sm:px-6 space-y-4">
-        {/* Appearance */}
-        <Card className={`${cardBg} p-6 rounded-2xl shadow-lg`}>
-          <h2 className={`text-xl font-bold ${textColor} mb-4 flex items-center gap-2`}>
-            {darkMode ? <Moon size={24} /> : <Sun size={24} />}
-            Appearance
-          </h2>
-          <div className="space-y-4">
-            <div className="flex items-center justify-between">
-              <div>
-                <p className={`font-semibold ${textColor}`}>Theme</p>
-                <p className={`text-sm ${textSecondary}`}>Current: {currentTheme.charAt(0).toUpperCase() + currentTheme.slice(1)}</p>
-              </div>
-              <Button onClick={cycleTheme} variant="outline">
-                Change Theme
-              </Button>
-            </div>
-          </div>
-        </Card>
+      <div className="max-w-[800px] mx-auto">
+        {/* Data Management Section */}
+        <div className="bg-card rounded-lg mb-4 mx-4 overflow-hidden shadow-sm">
+          <BackupSync 
+            onExport={() => {
+              toast({
+                title: 'Backup Complete',
+                description: 'Your data has been backed up successfully.',
+              });
+            }} 
+            onImport={() => {
+              toast({
+                title: 'Data Restored',
+                description: 'Your backup has been restored.',
+              });
+              setTimeout(() => window.location.reload(), 1000);
+            }}
+            renderAsListItems={true}
+          />
+          <SettingsItem label="Download my data" onClick={handleDownloadData} />
+          <AlertDialog>
+            <AlertDialogTrigger asChild>
+              <button className="w-full flex items-center justify-between py-4 px-4 text-destructive hover:bg-destructive/10 transition-colors">
+                <span className="text-base">Delete app data</span>
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </AlertDialogTrigger>
+            <AlertDialogContent>
+              <AlertDialogHeader>
+                <AlertDialogTitle>Delete all data?</AlertDialogTitle>
+                <AlertDialogDescription>
+                  This will permanently delete all your data including goals, categories, and notes. This action cannot be undone.
+                </AlertDialogDescription>
+              </AlertDialogHeader>
+              <AlertDialogFooter>
+                <AlertDialogCancel>Cancel</AlertDialogCancel>
+                <AlertDialogAction onClick={handleClearData} className="bg-destructive text-destructive-foreground hover:bg-destructive/90">
+                  Delete
+                </AlertDialogAction>
+              </AlertDialogFooter>
+            </AlertDialogContent>
+          </AlertDialog>
+        </div>
 
-        {/* Notifications */}
-        <Card className={`${cardBg} p-6 rounded-2xl shadow-lg`}>
-          <h2 className={`text-xl font-bold ${textColor} mb-4 flex items-center gap-2`}>
-            <Bell size={24} />
-            Notifications
-          </h2>
-          <NotificationSettings />
-        </Card>
-
-        {/* Data Management */}
-        <Card className={`${cardBg} p-6 rounded-2xl shadow-lg`}>
-          <h2 className={`text-xl font-bold ${textColor} mb-4 flex items-center gap-2`}>
-            <Download size={24} />
-            Data Management
-          </h2>
-          <div className="space-y-4">
-            <div className="flex flex-col gap-3">
-              <BackupSync 
-                onExport={() => {
-                  toast({
-                    title: 'Backup Complete',
-                    description: 'Your data has been backed up successfully.',
-                  });
-                }} 
-                onImport={() => {
-                  toast({
-                    title: 'Data Restored',
-                    description: 'Your backup has been restored.',
-                  });
-                  setTimeout(() => window.location.reload(), 1000);
-                }} 
-              />
-            </div>
-          </div>
-        </Card>
-
-        {/* Danger Zone */}
-        <Card className={`${cardBg} p-6 rounded-2xl shadow-lg border-2 border-red-500/20`}>
-          <h2 className={`text-xl font-bold text-red-600 mb-4 flex items-center gap-2`}>
-            <Trash2 size={24} />
-            Danger Zone
-          </h2>
-          <div className="space-y-3">
-            <p className={textSecondary}>
-              Permanently delete all your data including goals, categories, and notes.
-            </p>
-            <Button 
-              onClick={handleClearData}
-              variant="destructive"
-              className="w-full"
-            >
-              Clear All Data
-            </Button>
-          </div>
-        </Card>
+        {/* Other Section */}
+        <SectionHeader icon={<SettingsIcon className="w-4 h-4" />} label="Other" />
+        <div className="bg-card rounded-lg mx-4 overflow-hidden shadow-sm">
+          <SettingsItem label="Share with friends" onClick={handleShare} />
+          <SettingsItem label="Terms of Service" onClick={() => window.open('https://jarify.app/terms', '_blank')} />
+          <SettingsItem label="Help and feedback" onClick={() => window.open('mailto:support@jarify.app', '_blank')} />
+          <SettingsItem label="Privacy" onClick={() => window.open('https://jarify.app/privacy', '_blank')} />
+          <button
+            onClick={handleRateApp}
+            className="w-full flex items-center justify-between py-4 px-4 text-foreground hover:bg-accent/50 transition-colors"
+          >
+            <span className="text-base">Rate app</span>
+            <ChevronRight className="w-5 h-5 text-muted-foreground" />
+          </button>
+        </div>
 
         {/* App Info */}
-        <Card className={`${cardBg} p-6 rounded-2xl shadow-lg`}>
-          <div className="text-center">
-            <p className={`text-sm ${textSecondary}`}>Jarify Version 1.0.0</p>
-            <p className={`text-xs ${textSecondary} mt-1`}>© 2025 Jarify. All rights reserved.</p>
-          </div>
-        </Card>
+        <div className="text-center mt-8 px-4">
+          <p className="text-sm text-muted-foreground">Jarify Version 1.0.0</p>
+          <p className="text-xs text-muted-foreground mt-1">© 2025 Jarify. All rights reserved.</p>
+        </div>
       </div>
     </div>
   );
 };
 
 export default Settings;
+
