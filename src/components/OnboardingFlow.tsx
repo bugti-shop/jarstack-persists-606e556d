@@ -889,9 +889,6 @@ export default function OnboardingFlow({
               <h2 className="text-lg font-semibold text-gray-900 mb-3">
                 Your privacy and security matter to us.
               </h2>
-              <p className="text-gray-600 text-sm leading-relaxed">
-                We promise to always keep your personal information private and secure.
-              </p>
             </motion.div>
           </motion.section>}
 

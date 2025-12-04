@@ -1,4 +1,4 @@
-import { Download, Upload } from "lucide-react";
+import { Download, Upload, ChevronRight } from "lucide-react";
 import { Button } from "./ui/button";
 import { useToast } from "@/hooks/use-toast";
 import {
@@ -15,9 +15,10 @@ import { Filesystem, Directory, Encoding } from '@capacitor/filesystem';
 interface BackupSyncProps {
   onExport: () => void;
   onImport: (data: any) => void;
+  renderAsListItems?: boolean;
 }
 
-export const BackupSync = ({ onExport, onImport }: BackupSyncProps) => {
+export const BackupSync = ({ onExport, onImport, renderAsListItems = false }: BackupSyncProps) => {
   const { toast } = useToast();
 
   const handleExportToDevice = async () => {
@@ -33,9 +34,7 @@ export const BackupSync = ({ onExport, onImport }: BackupSyncProps) => {
       const jsonData = JSON.stringify(data, null, 2);
       const fileName = `jarify-backup-${new Date().toISOString().split('T')[0]}.json`;
 
-      // Check if running on native mobile platform
       if (Capacitor.isNativePlatform()) {
-        // Use Capacitor Filesystem for mobile
         const result = await Filesystem.writeFile({
           path: fileName,
           data: jsonData,
@@ -43,7 +42,6 @@ export const BackupSync = ({ onExport, onImport }: BackupSyncProps) => {
           encoding: Encoding.UTF8,
         });
 
-        // Get the full file path
         const fullPath = result.uri;
 
         toast({
@@ -52,7 +50,6 @@ export const BackupSync = ({ onExport, onImport }: BackupSyncProps) => {
           duration: 8000,
         });
       } else {
-        // Use browser download for web
         const blob = new Blob([jsonData], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
@@ -63,7 +60,6 @@ export const BackupSync = ({ onExport, onImport }: BackupSyncProps) => {
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
 
-        // Show download location
         const downloadPath = navigator.userAgent.includes('Windows') 
           ? `Downloads\\${fileName}`
           : `Downloads/${fileName}`;
@@ -85,7 +81,6 @@ export const BackupSync = ({ onExport, onImport }: BackupSyncProps) => {
       });
     }
   };
-
 
   const handleImportFromDevice = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -121,6 +116,32 @@ export const BackupSync = ({ onExport, onImport }: BackupSyncProps) => {
     };
     reader.readAsText(file);
   };
+
+  if (renderAsListItems) {
+    return (
+      <>
+        <button
+          onClick={handleExportToDevice}
+          className="w-full flex items-center justify-between py-4 px-4 text-foreground hover:bg-accent/50 transition-colors border-b border-border/50"
+        >
+          <span className="text-base">Back up data</span>
+          <ChevronRight className="w-5 h-5 text-muted-foreground" />
+        </button>
+        <div className="relative">
+          <input
+            type="file"
+            accept=".json"
+            onChange={handleImportFromDevice}
+            className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10"
+          />
+          <button className="w-full flex items-center justify-between py-4 px-4 text-foreground hover:bg-accent/50 transition-colors border-b border-border/50">
+            <span className="text-base">Restore data</span>
+            <ChevronRight className="w-5 h-5 text-muted-foreground" />
+          </button>
+        </div>
+      </>
+    );
+  }
 
   return (
     <Dialog>
