@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { Settings, Lightbulb, TrendingDown } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Settings, Lightbulb, TrendingDown, History, Trash2, X } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -7,10 +7,63 @@ import { Label } from '@/components/ui/label';
 import { Card } from '@/components/ui/card';
 import { SavingsInfoCards, DebtInfoCards } from '@/components/InfoCard';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import { ScrollArea } from '@/components/ui/scroll-area';
+
+interface CalculationHistory {
+  id: string;
+  type: string;
+  inputs: Record<string, string | number>;
+  result: string;
+  timestamp: string;
+}
+
+const HISTORY_KEY = 'jarify_calc_history';
 
 const Tools = () => {
   const navigate = useNavigate();
+  const [history, setHistory] = useState<CalculationHistory[]>([]);
   
+  // Load history on mount
+  useEffect(() => {
+    const saved = localStorage.getItem(HISTORY_KEY);
+    if (saved) {
+      setHistory(JSON.parse(saved));
+    }
+  }, []);
+
+  const saveToHistory = (type: string, inputs: Record<string, string | number>, result: string) => {
+    const newEntry: CalculationHistory = {
+      id: Date.now().toString(),
+      type,
+      inputs,
+      result,
+      timestamp: new Date().toLocaleString(),
+    };
+    const updated = [newEntry, ...history].slice(0, 100); // Keep last 100
+    setHistory(updated);
+    localStorage.setItem(HISTORY_KEY, JSON.stringify(updated));
+  };
+
+  const clearHistory = (type?: string) => {
+    if (type) {
+      const filtered = history.filter(h => h.type !== type);
+      setHistory(filtered);
+      localStorage.setItem(HISTORY_KEY, JSON.stringify(filtered));
+    } else {
+      setHistory([]);
+      localStorage.removeItem(HISTORY_KEY);
+    }
+  };
+
+  const getHistoryByType = (type: string) => history.filter(h => h.type === type);
+
   // Compound Interest Calculator
   const [principal, setPrincipal] = useState('');
   const [rate, setRate] = useState('');
@@ -84,6 +137,7 @@ const Tools = () => {
     if (p && r && t) {
       const amount = p * Math.pow((1 + r), t);
       setCompoundResult(amount);
+      saveToHistory('Compound Interest', { principal: p, rate: r * 100, time: t }, `Future Value: $${amount.toFixed(2)}`);
     }
   };
 
@@ -95,6 +149,7 @@ const Tools = () => {
     if (p && r && n) {
       const emi = (p * r * Math.pow(1 + r, n)) / (Math.pow(1 + r, n) - 1);
       setEmiResult(emi);
+      saveToHistory('Loan EMI', { amount: p, rate: parseFloat(loanRate), tenure: parseFloat(loanTenure) }, `Monthly EMI: $${emi.toFixed(2)}`);
     }
   };
 
@@ -107,6 +162,7 @@ const Tools = () => {
       const remaining = target - current;
       const months = Math.ceil(remaining / monthly);
       setSavingsResult(months);
+      saveToHistory('Savings Goal', { target, current, monthly }, `${months} months (${(months / 12).toFixed(1)} years)`);
     }
   };
 
@@ -120,13 +176,13 @@ const Tools = () => {
       const total = monthly * n;
       const interest = total - p;
       setMortgageResult({ monthly, total, interest });
+      saveToHistory('Mortgage', { price: p, rate: parseFloat(mortgageRate), term: parseFloat(mortgageTerm) }, `Monthly: $${monthly.toFixed(2)}`);
     }
   };
 
   const calculateIncomeTax = () => {
     const income = parseFloat(annualIncome);
     if (income) {
-      // Simplified progressive tax brackets (US-based example)
       let tax = 0;
       if (income <= 11000) {
         tax = income * 0.10;
@@ -143,6 +199,7 @@ const Tools = () => {
       }
       const effective = (tax / income) * 100;
       setTaxResult({ tax, effective });
+      saveToHistory('Income Tax', { income }, `Tax: $${tax.toFixed(2)} (${effective.toFixed(2)}%)`);
     }
   };
 
@@ -153,6 +210,7 @@ const Tools = () => {
       const amount = selling - cost;
       const percentage = (amount / cost) * 100;
       setProfitLossResult({ amount: Math.abs(amount), percentage: Math.abs(percentage), isProfit: amount >= 0 });
+      saveToHistory('Profit & Loss', { cost, selling }, `${amount >= 0 ? 'Profit' : 'Loss'}: $${Math.abs(amount).toFixed(2)} (${Math.abs(percentage).toFixed(2)}%)`);
     }
   };
 
@@ -163,6 +221,7 @@ const Tools = () => {
       const savings = price * (discount / 100);
       const finalPrice = price - savings;
       setDiscountResult({ savings, finalPrice });
+      saveToHistory('Discount', { price, discount }, `Save: $${savings.toFixed(2)}, Final: $${finalPrice.toFixed(2)}`);
     }
   };
 
@@ -174,6 +233,7 @@ const Tools = () => {
       const monthly = weekly * 4.33;
       const yearly = weekly * 52;
       setWageResult({ weekly, monthly, yearly });
+      saveToHistory('Hourly Wage', { rate, hours }, `Yearly: $${yearly.toFixed(2)}`);
     }
   };
 
@@ -185,6 +245,7 @@ const Tools = () => {
       const futureValue = amount * Math.pow(1 + inflation, y);
       const purchasingPower = amount / Math.pow(1 + inflation, y);
       setInflationResult({ futureValue, purchasingPower });
+      saveToHistory('Inflation', { amount, rate: inflation * 100, years: y }, `Future Cost: $${futureValue.toFixed(2)}`);
     }
   };
 
@@ -195,6 +256,7 @@ const Tools = () => {
       const tax = price * taxRate;
       const total = price + tax;
       setSalesTaxResult({ tax, total });
+      saveToHistory('Sales Tax', { price, rate: taxRate * 100 }, `Tax: $${tax.toFixed(2)}, Total: $${total.toFixed(2)}`);
     }
   };
 
@@ -207,6 +269,7 @@ const Tools = () => {
       const invested = p * n;
       const returns = total - invested;
       setSipResult({ invested, returns, total });
+      saveToHistory('SIP', { monthly: p, rate: parseFloat(sipRate), years: parseFloat(sipYears) }, `Total: $${total.toFixed(2)}`);
     }
   };
 
@@ -217,7 +280,47 @@ const Tools = () => {
       const gain = final - initial;
       const roi = (gain / initial) * 100;
       setRoiResult({ roi, gain });
+      saveToHistory('ROI', { initial, final }, `ROI: ${roi.toFixed(2)}%`);
     }
+  };
+
+  const HistoryButton = ({ type, color }: { type: string; color: string }) => {
+    const typeHistory = getHistoryByType(type);
+    if (typeHistory.length === 0) return null;
+    
+    return (
+      <Dialog>
+        <DialogTrigger asChild>
+          <Button variant="outline" size="sm" className="gap-1">
+            <History className="w-4 h-4" />
+            History ({typeHistory.length})
+          </Button>
+        </DialogTrigger>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle className="flex items-center justify-between">
+              {type} History
+              <Button variant="ghost" size="sm" onClick={() => clearHistory(type)} className="text-destructive hover:text-destructive">
+                <Trash2 className="w-4 h-4" />
+              </Button>
+            </DialogTitle>
+          </DialogHeader>
+          <ScrollArea className="max-h-[60vh]">
+            <div className="space-y-2">
+              {typeHistory.map((entry) => (
+                <div key={entry.id} className={`p-3 rounded-lg ${color} border border-border`}>
+                  <p className="text-sm font-medium text-foreground">{entry.result}</p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {Object.entries(entry.inputs).map(([k, v]) => `${k}: ${v}`).join(' | ')}
+                  </p>
+                  <p className="text-xs text-muted-foreground/70 mt-1">{entry.timestamp}</p>
+                </div>
+              ))}
+            </div>
+          </ScrollArea>
+        </DialogContent>
+      </Dialog>
+    );
   };
 
   return (
@@ -240,7 +343,10 @@ const Tools = () => {
         
         {/* Compound Interest Calculator */}
         <Card className="p-6 bg-card border-border">
-          <h2 className="text-xl font-bold text-foreground mb-4">Compound Interest Calculator</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-foreground">Compound Interest Calculator</h2>
+            <HistoryButton type="Compound Interest" color="bg-green-500/5" />
+          </div>
           <div className="space-y-4">
             <div>
               <Label htmlFor="principal">Principal Amount ($)</Label>
@@ -267,7 +373,10 @@ const Tools = () => {
 
         {/* Loan EMI Calculator */}
         <Card className="p-6 bg-card border-border">
-          <h2 className="text-xl font-bold text-foreground mb-4">Loan EMI Calculator</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-foreground">Loan EMI Calculator</h2>
+            <HistoryButton type="Loan EMI" color="bg-black/5" />
+          </div>
           <div className="space-y-4">
             <div>
               <Label htmlFor="loanAmount">Loan Amount ($)</Label>
@@ -295,7 +404,10 @@ const Tools = () => {
 
         {/* Savings Goal Calculator */}
         <Card className="p-6 bg-card border-border">
-          <h2 className="text-xl font-bold text-foreground mb-4">Savings Goal Calculator</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-foreground">Savings Goal Calculator</h2>
+            <HistoryButton type="Savings Goal" color="bg-purple-500/5" />
+          </div>
           <div className="space-y-4">
             <div>
               <Label htmlFor="targetAmount">Target Amount ($)</Label>
@@ -322,7 +434,10 @@ const Tools = () => {
 
         {/* Mortgage Calculator */}
         <Card className="p-6 bg-card border-border">
-          <h2 className="text-xl font-bold text-foreground mb-4">Mortgage Calculator</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-foreground">Mortgage Calculator</h2>
+            <HistoryButton type="Mortgage" color="bg-blue-500/5" />
+          </div>
           <div className="space-y-4">
             <div>
               <Label>Home Price ($)</Label>
@@ -350,7 +465,10 @@ const Tools = () => {
 
         {/* Income Tax Calculator */}
         <Card className="p-6 bg-card border-border">
-          <h2 className="text-xl font-bold text-foreground mb-4">Income Tax Calculator</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-foreground">Income Tax Calculator</h2>
+            <HistoryButton type="Income Tax" color="bg-orange-500/5" />
+          </div>
           <div className="space-y-4">
             <div>
               <Label>Annual Income ($)</Label>
@@ -369,7 +487,10 @@ const Tools = () => {
 
         {/* Profit & Loss Calculator */}
         <Card className="p-6 bg-card border-border">
-          <h2 className="text-xl font-bold text-foreground mb-4">Profit & Loss Calculator</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-foreground">Profit & Loss Calculator</h2>
+            <HistoryButton type="Profit & Loss" color="bg-green-500/5" />
+          </div>
           <div className="space-y-4">
             <div>
               <Label>Cost Price ($)</Label>
@@ -393,7 +514,10 @@ const Tools = () => {
 
         {/* Discount Calculator */}
         <Card className="p-6 bg-card border-border">
-          <h2 className="text-xl font-bold text-foreground mb-4">Discount Calculator</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-foreground">Discount Calculator</h2>
+            <HistoryButton type="Discount" color="bg-pink-500/5" />
+          </div>
           <div className="space-y-4">
             <div>
               <Label>Original Price ($)</Label>
@@ -416,7 +540,10 @@ const Tools = () => {
 
         {/* Hourly Wage Calculator */}
         <Card className="p-6 bg-card border-border">
-          <h2 className="text-xl font-bold text-foreground mb-4">Hourly Wage Calculator</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-foreground">Hourly Wage Calculator</h2>
+            <HistoryButton type="Hourly Wage" color="bg-teal-500/5" />
+          </div>
           <div className="space-y-4">
             <div>
               <Label>Hourly Rate ($)</Label>
@@ -439,7 +566,10 @@ const Tools = () => {
 
         {/* Inflation Calculator */}
         <Card className="p-6 bg-card border-border">
-          <h2 className="text-xl font-bold text-foreground mb-4">Inflation Calculator</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-foreground">Inflation Calculator</h2>
+            <HistoryButton type="Inflation" color="bg-amber-500/5" />
+          </div>
           <div className="space-y-4">
             <div>
               <Label>Current Amount ($)</Label>
@@ -466,7 +596,10 @@ const Tools = () => {
 
         {/* Sales Tax Calculator */}
         <Card className="p-6 bg-card border-border">
-          <h2 className="text-xl font-bold text-foreground mb-4">Sales Tax Calculator</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-foreground">Sales Tax Calculator</h2>
+            <HistoryButton type="Sales Tax" color="bg-indigo-500/5" />
+          </div>
           <div className="space-y-4">
             <div>
               <Label>Item Price ($)</Label>
@@ -489,7 +622,10 @@ const Tools = () => {
 
         {/* SIP Calculator */}
         <Card className="p-6 bg-card border-border">
-          <h2 className="text-xl font-bold text-foreground mb-4">SIP Calculator</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-foreground">SIP Calculator</h2>
+            <HistoryButton type="SIP" color="bg-cyan-500/5" />
+          </div>
           <div className="space-y-4">
             <div>
               <Label>Monthly Investment ($)</Label>
@@ -517,7 +653,10 @@ const Tools = () => {
 
         {/* ROI Calculator */}
         <Card className="p-6 bg-card border-border">
-          <h2 className="text-xl font-bold text-foreground mb-4">ROI Calculator</h2>
+          <div className="flex items-center justify-between mb-4">
+            <h2 className="text-xl font-bold text-foreground">ROI Calculator</h2>
+            <HistoryButton type="ROI" color="bg-green-500/5" />
+          </div>
           <div className="space-y-4">
             <div>
               <Label>Initial Investment ($)</Label>
