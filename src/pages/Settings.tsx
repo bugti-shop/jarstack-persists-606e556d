@@ -370,9 +370,93 @@ const Settings = () => {
         <SectionHeader icon={<SettingsIcon className="w-4 h-4" />} label="Other" />
         <div className="bg-card rounded-lg mx-4 overflow-hidden shadow-sm">
           <SettingsItem label="Share with friends" onClick={handleShare} />
-          <SettingsItem label="Terms of Service" onClick={() => window.open('https://jarify.app/terms', '_blank')} />
-          <SettingsItem label="Help and feedback" onClick={() => window.open('mailto:support@jarify.app', '_blank')} />
-          <SettingsItem label="Privacy" onClick={() => window.open('https://jarify.app/privacy', '_blank')} />
+          
+          {/* Terms of Service Dialog */}
+          <Dialog>
+            <DialogTrigger asChild>
+              <button className="w-full flex items-center justify-between py-4 px-4 text-foreground hover:bg-accent/50 transition-colors border-b border-border/50">
+                <span className="text-base">Terms of Service</span>
+                <ChevronRight className="w-5 h-5 text-muted-foreground" />
+              </button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-md max-h-[80vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>Terms of Service</DialogTitle>
+              </DialogHeader>
+              <div className="text-sm text-muted-foreground space-y-4 py-4">
+                <p><strong>Last Updated:</strong> January 2025</p>
+                <p>Welcome to Jarify. By using our app, you agree to these terms.</p>
+                <h4 className="font-semibold text-foreground">1. Use of Service</h4>
+                <p>Jarify is a personal savings tracker app. You may use it for personal, non-commercial purposes only.</p>
+                <h4 className="font-semibold text-foreground">2. User Data</h4>
+                <p>All your data is stored locally on your device. We do not collect or store your personal financial information on our servers.</p>
+                <h4 className="font-semibold text-foreground">3. Disclaimer</h4>
+                <p>Jarify is not a financial advisor. The calculators and tools are for informational purposes only. Always consult a professional for financial advice.</p>
+                <h4 className="font-semibold text-foreground">4. Modifications</h4>
+                <p>We reserve the right to modify these terms at any time. Continued use of the app constitutes acceptance of updated terms.</p>
+                <h4 className="font-semibold text-foreground">5. Contact</h4>
+                <p>For questions, contact us at support@jarify.app</p>
+              </div>
+            </DialogContent>
+          </Dialog>
+
+          {/* Help and Feedback Dialog */}
+          <Dialog>
+            <DialogTrigger asChild>
+              <button className="w-full flex items-center justify-between py-4 px-4 text-foreground hover:bg-accent/50 transition-colors border-b border-border/50">
+                <span className="text-base">Help and feedback</span>
+                <ChevronRight className="w-5 h-5 text-muted-foreground" />
+              </button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-md max-h-[80vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>Help and Feedback</DialogTitle>
+              </DialogHeader>
+              <div className="text-sm text-muted-foreground space-y-4 py-4">
+                <h4 className="font-semibold text-foreground">Frequently Asked Questions</h4>
+                <p><strong>How do I create a savings jar?</strong><br />Tap the + button on the home screen and enter your goal details.</p>
+                <p><strong>How do I add money to a jar?</strong><br />Tap on any jar and use the Add or Withdraw buttons.</p>
+                <p><strong>Is my data backed up?</strong><br />Your data is stored locally. Use the Backup feature in Settings to export your data.</p>
+                <p><strong>Can I set reminders?</strong><br />Yes! Enable notifications in Settings to receive savings reminders.</p>
+                <h4 className="font-semibold text-foreground mt-4">Need More Help?</h4>
+                <p>Contact our support team at: <span className="text-foreground font-medium">support@jarify.app</span></p>
+                <h4 className="font-semibold text-foreground mt-4">Send Feedback</h4>
+                <p>We love hearing from you! Share your suggestions, report bugs, or tell us what you love about Jarify by emailing us.</p>
+              </div>
+            </DialogContent>
+          </Dialog>
+
+          {/* Privacy Dialog */}
+          <Dialog>
+            <DialogTrigger asChild>
+              <button className="w-full flex items-center justify-between py-4 px-4 text-foreground hover:bg-accent/50 transition-colors border-b border-border/50">
+                <span className="text-base">Privacy</span>
+                <ChevronRight className="w-5 h-5 text-muted-foreground" />
+              </button>
+            </DialogTrigger>
+            <DialogContent className="sm:max-w-md max-h-[80vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle>Privacy Policy</DialogTitle>
+              </DialogHeader>
+              <div className="text-sm text-muted-foreground space-y-4 py-4">
+                <p><strong>Last Updated:</strong> January 2025</p>
+                <p>Your privacy is important to us. This policy explains how Jarify handles your information.</p>
+                <h4 className="font-semibold text-foreground">Data Storage</h4>
+                <p>All your financial data, savings goals, and personal information are stored locally on your device. We do not upload or store your data on any external servers.</p>
+                <h4 className="font-semibold text-foreground">Data Collection</h4>
+                <p>Jarify does not collect personal information. We may collect anonymous usage analytics to improve the app experience.</p>
+                <h4 className="font-semibold text-foreground">Third-Party Services</h4>
+                <p>We do not share your information with third parties. Any integrations (like Google Play) follow their respective privacy policies.</p>
+                <h4 className="font-semibold text-foreground">Data Security</h4>
+                <p>Your data remains on your device and is as secure as your device itself. We recommend using device-level security features.</p>
+                <h4 className="font-semibold text-foreground">Your Rights</h4>
+                <p>You can delete all your data at any time using the "Delete app data" option in Settings.</p>
+                <h4 className="font-semibold text-foreground">Contact</h4>
+                <p>For privacy concerns, contact us at support@jarify.app</p>
+              </div>
+            </DialogContent>
+          </Dialog>
+
           <button
             onClick={handleRateApp}
             className="w-full flex items-center justify-between py-4 px-4 text-foreground hover:bg-accent/50 transition-colors"
