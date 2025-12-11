@@ -24,8 +24,6 @@ export default function OnboardingFlow({
   const [expenseType, setExpenseType] = useState('');
   const [priority, setPriority] = useState('');
   const [currentSavings, setCurrentSavings] = useState('');
-  const [employment, setEmployment] = useState('');
-  const [dependents, setDependents] = useState('');
   const [source, setSource] = useState('');
   const [triedOtherApp, setTriedOtherApp] = useState('');
   const [progress, setProgress] = useState(0);
@@ -165,32 +163,6 @@ export default function OnboardingFlow({
     id: '3',
     label: 'Over $2,000',
     icon: DollarSign
-  }];
-  const employmentOptions = [{
-    id: '1',
-    label: 'Full-time',
-    icon: TrendingUp
-  }, {
-    id: '2',
-    label: 'Part-time',
-    icon: TrendingUp
-  }, {
-    id: '3',
-    label: 'Self-employed',
-    icon: TrendingUp
-  }];
-  const dependentsOptions = [{
-    id: '1',
-    label: 'None',
-    icon: Calendar
-  }, {
-    id: '2',
-    label: '1-2 people',
-    icon: Calendar
-  }, {
-    id: '3',
-    label: '3+ people',
-    icon: Calendar
   }];
   const sources = [{
     name: 'TikTok',
@@ -896,46 +868,6 @@ export default function OnboardingFlow({
             </motion.div>
           </motion.section>}
 
-
-        {step === 12 && <section className="mt-8">
-            <h1 className="text-2xl font-semibold text-gray-900">What's your work situation?</h1>
-            <p className="text-gray-400 mt-2">
-              Choose your employment type.
-            </p>
-            <div className="mt-8 space-y-4">
-              {employmentOptions.map(e => {
-            const IconComponent = e.icon;
-            return <button key={e.id} onClick={() => setEmployment(e.label)} className={`w-full text-left rounded-2xl py-4 px-4 shadow-sm transition flex items-center gap-3 ${employment === e.label ? 'bg-black text-white' : 'text-gray-800'}`} style={employment !== e.label ? {
-              backgroundColor: '#f9f8fd'
-            } : {}}>
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${employment === e.label ? 'bg-white' : 'bg-gray-200'}`}>
-                      <IconComponent className={`w-4 h-4 ${employment === e.label ? 'text-black' : 'text-gray-600'}`} />
-                    </div>
-                    <span className="text-base font-medium">{e.label}</span>
-                  </button>;
-          })}
-            </div>
-          </section>}
-
-        {step === 13 && <section className="mt-8">
-            <h1 className="text-2xl font-semibold text-gray-900">How many people depend on you?</h1>
-            <p className="text-gray-400 mt-2">
-              Select your household size.
-            </p>
-            <div className="mt-8 space-y-4">
-              {dependentsOptions.map(d => {
-            const IconComponent = d.icon;
-            return <button key={d.id} onClick={() => setDependents(d.label)} className={`w-full text-left rounded-2xl py-4 px-4 shadow-sm transition flex items-center gap-3 ${dependents === d.label ? 'bg-black text-white' : 'text-gray-800'}`} style={dependents !== d.label ? {
-              backgroundColor: '#f9f8fd'
-            } : {}}>
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${dependents === d.label ? 'bg-white' : 'bg-gray-200'}`}>
-                      <IconComponent className={`w-4 h-4 ${dependents === d.label ? 'text-black' : 'text-gray-600'}`} />
-                    </div>
-                    <span className="text-base font-medium">{d.label}</span>
-                  </button>;
-          })}
-            </div>
-          </section>}
 
         {step === 14 && <motion.section initial={{
         opacity: 0,
