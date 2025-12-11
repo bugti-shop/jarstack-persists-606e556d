@@ -293,7 +293,7 @@ export default function OnboardingFlow({
   <div className="flex gap-3">
     <button onClick={() => setPlan('monthly')} className={`border rounded-xl p-4 w-36 text-center ${plan === 'monthly' ? 'border-black bg-gray-50' : 'border-gray-200'}`}>
       <p className="font-semibold">Monthly</p>
-      <p className="text-gray-600 text-sm">$3.99/mo</p>
+      <p className="text-gray-600 text-sm">$2.99/mo</p>
     </button>
 
     <button onClick={() => setPlan('yearly')} className={`border-2 rounded-xl p-4 w-36 text-center relative flex flex-col items-center justify-center ${plan === 'yearly' ? 'border-black' : 'border-gray-200'}`}>
@@ -301,14 +301,14 @@ export default function OnboardingFlow({
         3 DAYS FREE
       </span>
       <p className="font-semibold text-center">Yearly</p>
-      <p className="text-gray-600 text-sm mt-1">$2.35/mo</p>
+      <p className="text-gray-600 text-sm mt-1">$1.99/mo</p>
     </button>
   </div>
 
   {/* Wrap the conditional text and trial button in a single div */}
   <div className="flex flex-col items-center gap-2">
     {plan === 'yearly' && <p className="text-gray-500 text-sm mt-2">
-        3 days free, then $28.20 per year ($2.35/mo)
+        3 days free, then $23.88 per year ($1.99/mo)
       </p>}
 
     <button onClick={onComplete} className="bg-black text-white rounded-full w-80 py-4 mt-4 font-semibold text-lg shadow-md">
