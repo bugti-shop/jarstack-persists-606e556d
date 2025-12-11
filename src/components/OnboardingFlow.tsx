@@ -302,6 +302,9 @@ export default function OnboardingFlow({
       </span>
       <p className="font-semibold text-center">Yearly</p>
       <p className="text-gray-600 text-sm mt-1">$1.99/mo</p>
+      <span className="bg-green-500 text-white text-xs px-2 py-0.5 rounded-full mt-1">
+        33% OFF
+      </span>
     </button>
   </div>
 
@@ -316,26 +319,28 @@ export default function OnboardingFlow({
     </button>
   </div>
 
-  {/* Savings comparison */}
-  <div className="mt-6 bg-gray-50 rounded-xl p-4 w-80">
-    <p className="text-sm font-semibold text-gray-900 mb-3 text-center">Compare & Save</p>
-    <div className="space-y-2">
-      <div className="flex justify-between items-center text-sm">
-        <span className="text-gray-600">Monthly plan</span>
-        <span className="text-gray-900">$35.88/year</span>
-      </div>
-      <div className="flex justify-between items-center text-sm">
-        <span className="text-gray-600">Yearly plan</span>
-        <span className="text-gray-900">$23.88/year</span>
-      </div>
-      <div className="border-t border-gray-200 pt-2 mt-2">
-        <div className="flex justify-between items-center text-sm font-semibold">
-          <span className="text-green-600">You save with yearly</span>
-          <span className="text-green-600">$12.00/year</span>
+  {/* Savings comparison - only visible when yearly is selected */}
+  {plan === 'yearly' && (
+    <div className="mt-6 bg-gray-50 rounded-xl p-4 w-80">
+      <p className="text-sm font-semibold text-gray-900 mb-3 text-center">Compare & Save</p>
+      <div className="space-y-2">
+        <div className="flex justify-between items-center text-sm">
+          <span className="text-gray-600">Monthly plan</span>
+          <span className="text-gray-900 line-through">$35.88/year</span>
+        </div>
+        <div className="flex justify-between items-center text-sm">
+          <span className="text-gray-600">Yearly plan</span>
+          <span className="text-gray-900">$23.88/year</span>
+        </div>
+        <div className="border-t border-gray-200 pt-2 mt-2">
+          <div className="flex justify-between items-center text-sm font-semibold">
+            <span className="text-green-600">You save with yearly</span>
+            <span className="text-green-600">$12.00/year</span>
+          </div>
         </div>
       </div>
     </div>
-  </div>
+  )}
         </div>
  
 
