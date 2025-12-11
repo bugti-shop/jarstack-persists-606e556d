@@ -250,6 +250,8 @@ export default function OnboardingFlow({
       setStep(9);
     } else if (step === 9) {
       setStep(10);
+    } else if (step === 11) {
+      setStep(14);
     } else if (step < 17) {
       setStep(step + 1);
     }
@@ -271,6 +273,8 @@ export default function OnboardingFlow({
       setStep(7);
     } else if (step === 10) {
       setStep(9);
+    } else if (step === 14) {
+      setStep(11);
     } else {
       setStep(step - 1);
     }
