@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import Confetti from 'react-confetti';
 import { motion, AnimatePresence } from 'framer-motion';
 import { PiggyBank, CreditCard, ShieldAlert, DollarSign, Calendar, TrendingUp, Unlock, Bell, Crown, ThumbsUp, ThumbsDown } from 'lucide-react';
-import { GOOGLE_PLAY_PRODUCTS, handlePurchase, type PlanType } from '@/lib/billing';
+import { GOOGLE_PLAY_PRODUCTS, handlePurchase, restorePurchases, type PlanType } from '@/lib/billing';
+import { toast } from 'sonner';
 import Welcome from '@/components/Welcome';
 import infoHome from '@/assets/info-home.png';
 import infoNotes from '@/assets/info-notes.png';
@@ -312,9 +313,16 @@ export default function OnboardingFlow({
         3 days free, then $23.88 per year ($1.99/mo)
       </p>}
 
-    <button onClick={() => {
-      console.log(`Selected plan: ${plan}, Product ID: ${GOOGLE_PLAY_PRODUCTS[plan]}`);
-      handlePurchase(plan).then(() => onComplete());
+    <button onClick={async () => {
+      console.log(`Selected plan: ${plan}, Product ID: ${GOOGLE_PLAY_PRODUCTS[plan].productId}`);
+      try {
+        const success = await handlePurchase(plan);
+        if (success) {
+          onComplete();
+        }
+      } catch (error) {
+        toast.error('Purchase failed. Please try again.');
+      }
     }} className="bg-black text-white rounded-full w-80 py-4 mt-4 font-semibold text-lg shadow-md">
       Start My 3-Day Free Trial
     </button>
@@ -342,14 +350,29 @@ export default function OnboardingFlow({
       </div>
     </div>
   )}
+
+  {/* Restore purchases button */}
+  <button 
+    onClick={async () => {
+      try {
+        const restored = await restorePurchases();
+        if (restored) {
+          toast.success('Subscription restored successfully!');
+          onComplete();
+        } else {
+          toast.info('No previous purchases found.');
+        }
+      } catch (error) {
+        toast.error('Failed to restore purchases.');
+      }
+    }} 
+    className="text-gray-500 text-sm underline mt-4"
+  >
+    Restore Purchases
+  </button>
         </div>
- 
-
       </div>
-
-          
-            
-          </div>;
+    </div>;
   }
   return <div className="min-h-screen bg-white flex flex-col justify-between p-6 relative overflow-y-auto">
       {complete && <Confetti width={window.innerWidth} height={window.innerHeight} recycle={false} />}
