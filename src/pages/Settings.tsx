@@ -395,7 +395,7 @@ const Settings = () => {
                 <h4 className="font-semibold text-foreground">4. Modifications</h4>
                 <p>We reserve the right to modify these terms at any time. Continued use of the app constitutes acceptance of updated terms.</p>
                 <h4 className="font-semibold text-foreground">5. Contact</h4>
-                <p>For questions, contact us at support@jarify.app</p>
+                <p>For questions, contact us at bugtishop@gmail.com</p>
               </div>
             </DialogContent>
           </Dialog>
@@ -419,7 +419,7 @@ const Settings = () => {
                 <p><strong>Is my data backed up?</strong><br />Your data is stored locally. Use the Backup feature in Settings to export your data.</p>
                 <p><strong>Can I set reminders?</strong><br />Yes! Enable notifications in Settings to receive savings reminders.</p>
                 <h4 className="font-semibold text-foreground mt-4">Need More Help?</h4>
-                <p>Contact our support team at: <span className="text-foreground font-medium">support@jarify.app</span></p>
+                <p>Contact our support team at: <span className="text-foreground font-medium">bugtishop@gmail.com</span></p>
                 <h4 className="font-semibold text-foreground mt-4">Send Feedback</h4>
                 <p>We love hearing from you! Share your suggestions, report bugs, or tell us what you love about Jarify by emailing us.</p>
               </div>
@@ -452,7 +452,7 @@ const Settings = () => {
                 <h4 className="font-semibold text-foreground">Your Rights</h4>
                 <p>You can delete all your data at any time using the "Delete app data" option in Settings.</p>
                 <h4 className="font-semibold text-foreground">Contact</h4>
-                <p>For privacy concerns, contact us at support@jarify.app</p>
+                <p>For privacy concerns, contact us at bugtishop@gmail.com</p>
               </div>
             </DialogContent>
           </Dialog>
@@ -466,11 +466,6 @@ const Settings = () => {
           </button>
         </div>
 
-        {/* App Info */}
-        <div className="text-center mt-8 px-4">
-          <p className="text-sm text-muted-foreground">Jarify Version 1.0.0</p>
-          <p className="text-xs text-muted-foreground mt-1">© 2025 Jarify. All rights reserved.</p>
-        </div>
       </div>
     </div>
   );

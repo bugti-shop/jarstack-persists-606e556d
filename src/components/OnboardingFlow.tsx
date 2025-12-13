@@ -302,9 +302,6 @@ export default function OnboardingFlow({
       </span>
       <p className="font-semibold text-center">Yearly</p>
       <p className="text-gray-600 text-sm mt-1">$1.99/mo</p>
-      <span className="bg-green-500 text-white text-xs px-2 py-0.5 rounded-full mt-1">
-        33% OFF
-      </span>
     </button>
   </div>
 
